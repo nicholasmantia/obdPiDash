@@ -1,5 +1,7 @@
+![Kivy](https://img.shields.io/badge/Built%20in-Kivy-purple) ![Python](https://img.shields.io/badge/Powered%20by-Python-yellow) ![Arch](https://img.shields.io/badge/Arch-ARM64-blue) ![OS](https://img.shields.io/badge/OS-Raspbian-red)
+
 # obiPiDash
-obiPiDash is designed for use on Raspberry Pi in a Renault Megane RS 250.
+A python project to pull vehicle information from a bluetooth OBD-II adapter and output it to a nice GUI on any touchscreen display.
 ## Features:
 - Coolant Temp, Intake Temp, Battery Voltage, STFT, LTFT, Throttle Pos, Engine Load, Spark Advance, Gear Indicator, RPM (w/ MAX), Speed (w/ MAX)
 - Adjustable Warning thresholds for Coolant Temp, Intake Temp, STFT, LTFT, RPM and Speed
