@@ -175,9 +175,9 @@ boot_delay=0`
 - /boot/cmdline.txt - change console=tty1 to console=tty3, add the following to the end of the line
 `splash quiet logo.nologo vt.global_cursor_default=0 consoleblank=0`
 - In /etc/pam.d/login comment out the following lines
-`session    optional   pam_lastlog.so
-session    optional   pam_motd.so motd=/run/motd.dynamic
-session    optional   pam_motd.so noupdate`
+`session    optional   pam_lastlog.so`
+`session    optional   pam_motd.so motd=/run/motd.dynamic`
+`session    optional   pam_motd.so noupdate`
 - Run `touch ~/.hushlogin`
 - Remove everything from /etc/motd
 
