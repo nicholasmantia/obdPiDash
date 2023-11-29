@@ -1,5 +1,5 @@
-# DigitalRaceDashSlim
-Digital Race Dash designed for use on Raspberry Pi in a Renault Megane RS 250.
+# obiPiDash
+obiPiDash is designed for use on Raspberry Pi in a Renault Megane RS 250.
 ## Features:
 - Coolant Temp, Intake Temp, Battery Voltage, STFT, LTFT, Throttle Pos, Engine Load, Spark Advance, Gear Indicator, RPM (w/ MAX), Speed (w/ MAX)
 - Adjustable Warning thresholds for Coolant Temp, Intake Temp, STFT, LTFT, RPM and Speed
@@ -168,9 +168,16 @@ Modify in main.py
 - onPi <- its default 1, but will change to 0 in code if detected not running on Pi (for development on PC)
 - autobrightness < 0 will keep brightness same as last boot, 1 allows custom time if using RTC, 2 will always dim on boot
 
-## OPTIONAL Clean up boot:
-- Disable the Raspberry Pi logo in the corner of the screen by adding logo.nologo to end of string in /boot/cmdline.txt
-- Disable the Raspberry Pi ‘color test’ by adding the line disable_splash=1 to bottom of /boot/config.txt
-- Clean up the text by adding quiet to end of /boot/cmdline.txt and replace “console=tty1” with “console=tty3”
-
+## OPTIONAL Clean up boot (Remove all boot text and logos):
+- /boot/config.txt
+`disable_splash=1
+boot_delay=0`
+- /boot/cmdline.txt - change console=tty1 to console=tty3, add the following to the end of the line
+`splash quiet logo.nologo vt.global_cursor_default=0 consoleblank=0`
+- In /etc/pam.d/login comment out the following lines
+`session    optional   pam_lastlog.so
+session    optional   pam_motd.so motd=/run/motd.dynamic
+session    optional   pam_motd.so noupdate`
+- Run `touch ~/.hushlogin`
+- Remove everything from /etc/motd
 
