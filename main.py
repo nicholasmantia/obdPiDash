@@ -17,7 +17,7 @@ import math
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-globalversion = "V1.3.0"
+globalversion = "V1.3.1"
 # 29/11/2023
 # Created by Joel Zeller
 # Edited by Charlie Howard
@@ -40,7 +40,6 @@ from kivy.config import Config
 Config.set('graphics', 'width', '800')
 Config.set('graphics', 'height', '480')
 from kivy.core.window import Window
-#Window.size = (800, 480)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Inital Setup functions

@@ -25,8 +25,6 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 - Raspberry Pi OS Bullseye 32-bit
 - Python 3.7.3
 - Official 7inch Raspberry Pi Display
-- Simple 12V->5V converter: https://www.amazon.com/gp/product/B01M03288J/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
-- Basic OBDII BT Dongle: https://www.amazon.com/gp/product/B009NPAORC/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1
 
 ## Install Kivy:
 
@@ -89,7 +87,7 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 - `sudo python3 -m pip install --upgrade Cython==0.29.19 pillow`
 
 #### Install Kivy:
-- `sudo python3 -m pip install https://github.com/kivy/kivy/archive/master.zip`
+- `sudo pip3 install kivy`
 
 #### Copy code and data folders to /home/pi/obdPiDash
 - `git clone https://github.com/charliehoward/obdPiDash.git`
@@ -142,22 +140,24 @@ https://python-obd.readthedocs.io/en/latest/#installation
 Description=Start OBDPi
 
 [Service]
-ExecStart=/usr/bin/python3 -u /home/obd/obdPiDash/main.py
+ExecStart=/bin/sh /home/pi/launcher.sh >/home/obd/obdPiDash/logs/log.log 2>&1
 ExecStop=/usr/bin/pkill -9 -f main.py
-WorkingDirectory=/home/pi/obdPiDash/
+WorkingDirectory=/home/obd/obdPiDash/
 StandardOutput=inherit
 StandardError=inherit
-Restart=unless-stopped
 User=obd
 
 [Install]
 WantedBy=multi-user.target
 ```
-Make sure to change your username if it's not pi
+Make sure to change your username if it's not obd
 Ctrl+x to Save
 
 Now, enter the line:
 - `sudo systemctl enable obdPiDash.service`
+
+Then make the launcher executable:
+- `sudo chmod a+x ./obdPiDash/obdPiLauncher.sh`
 
 Reboot for final test
 
