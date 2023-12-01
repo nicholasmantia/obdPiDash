@@ -30,9 +30,9 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 
 `sudo apt update`
 
-`sudo apt install libfreetype6-dev libgl1-mesa-dev libgles2-mesa-dev libdrm-dev libgbm-dev libudev-dev libasound2-dev liblzma-dev libjpeg-dev libtiff-dev libwebp-dev git build-essential`
+`sudo apt install libfreetype6-dev libgl1-mesa-dev libgles2-mesa-dev libdrm-dev libgbm-dev libudev-dev libasound2-dev liblzma-dev libjpeg-dev libtiff-dev libwebp-dev git build-essential -y`
 
-`sudo apt install gir1.2-ibus-1.0 libdbus-1-dev libegl1-mesa-dev libibus-1.0-5 libibus-1.0-dev libice-dev libsm-dev libsndio-dev libwayland-bin libwayland-dev libxi-dev libxinerama-dev libxkbcommon-dev libxrandr-dev libxss-dev libxt-dev libxv-dev x11proto-randr-dev x11proto-scrnsaver-dev x11proto-video-dev x11proto-xinerama-dev`
+`sudo apt install gir1.2-ibus-1.0 libdbus-1-dev libegl1-mesa-dev libibus-1.0-5 libibus-1.0-dev libice-dev libsm-dev libsndio-dev libwayland-bin libwayland-dev libxi-dev libxinerama-dev libxkbcommon-dev libxrandr-dev libxss-dev libxt-dev libxv-dev x11proto-randr-dev x11proto-scrnsaver-dev x11proto-video-dev x11proto-xinerama-dev -y`
 
 #### Install SDL2:
 - `wget https://libsdl.org/release/SDL2-2.0.10.tar.gz`
@@ -76,15 +76,15 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 #### Install the dependencies:
 - `sudo apt update`
 - `sudo apt upgrade`
-- `sudo apt install pkg-config libgl1-mesa-dev libgles2-mesa-dev python3-setuptools libgstreamer1.0-dev git-core gstreamer1.0-plugins-{bad,base,good,ugly} gstreamer1.0-{omx,alsa} thon3-dev libmtdev-dev xclip xsel libjpeg-dev`
+- `sudo apt install pkg-config libgl1-mesa-dev libgles2-mesa-dev python3-setuptools libgstreamer1.0-dev git gstreamer1.0-plugins-{bad,base,good,ugly} gstreamer1.0-{omx,alsa} thon3-dev libmtdev-dev xclip xsel libjpeg-dev -y`
 
 #### Install pip3:
 - `sudo apt install python3-pip`
 
 
 #### Install pip dependencies:
-- `sudo python3 -m pip install --upgrade pip setuptools`
-- `sudo python3 -m pip install --upgrade Cython==0.29.19 pillow`
+- `pip3 install --upgrade pip setuptools`
+- `pip3 install --upgrade Cython==0.29.19 pillow`
 
 #### Install Kivy:
 - `sudo pip3 install kivy`
@@ -100,9 +100,7 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 
 Edit /.kivy/config.ini by:
 - `sudo su`
-- `cd ..`
-- `cd ..`
-- `cd root`
+- `cd`
 - `sudo nano .kivy/config.ini`
 
 
@@ -112,6 +110,13 @@ mouse = mouse
 mtdev_%(name)s = probesysfs,provider=mtdev
 hid_%(name)s = probesysfs,provider=hidinput
 ````
+
+`exit` to return to normal user
+
+You can also change this config for the non root user:
+- `cd`
+- `sudo nano .kivy/config.ini`
+
 ## Other Misc Setup (not needed Raspberry Pi Zero 2 W):
 
 In raspi-config -> Advanced Options -> Memory Split
@@ -119,7 +124,7 @@ In raspi-config -> Advanced Options -> Memory Split
 
 #### Install Python OBD:
 https://python-obd.readthedocs.io/en/latest/#installation
-- `sudo pip3 install obd`
+- `pip3 install obd`
 
 #### Install RPi.GPIO, Lite does not come with it..
 - `sudo apt-get install python3-rpi.gpio`
