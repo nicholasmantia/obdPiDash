@@ -2,10 +2,9 @@
 cd /home/pi/obdPiDash
 if [[ `git status --porcelain` ]]; then
   sudo systemctl stop obdPiDash.service
-  cd /home/pi/obdPiDash
   git pull
-  cd
-  sudo systemctl stop obdPiDash.service
+  sudo systemctl start obdPiDash.service
 else
   fi
+cd
 fi
