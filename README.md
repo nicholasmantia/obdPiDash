@@ -92,6 +92,9 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 #### Copy code and data folders to /home/pi/obdPiDash
 - `git clone https://github.com/charliehoward/obdPiDash.git`
 
+#### Copy all scripts to the home folder:
+- cp `obdPiDash/*.sh ./`
+
 #### Navigate to obdPiDash directory and run main.py to create the config.ini file
 - `cd obdPiDash`
 - `python3 main.py`
@@ -140,7 +143,7 @@ https://python-obd.readthedocs.io/en/latest/#installation
 Description=Start OBDPi
 
 [Service]
-ExecStart=/bin/sh /home/pi/launcher.sh >/home/pi/obdPiDash/logs/log.log 2>&1
+ExecStart=/bin/sh /home/pi/obdPiLauncher.sh
 ExecStop=/usr/bin/pkill -9 -f main.py
 WorkingDirectory=/home/pi/obdPiDash/
 StandardOutput=inherit
@@ -157,7 +160,7 @@ Now, enter the line:
 `sudo systemctl enable obdPiDash.service`
 
 Then make the launcher executable:
-`sudo chmod a+x ./obdPiDash/obdPiLauncher.sh`
+`sudo chmod a+x ./obdPiLauncher.sh`
 
 Reboot for final test
 
@@ -172,10 +175,10 @@ Modify in main.py
 
 ## OPTIONAL Setup automatic updates on every boot if your car is in range of your WiFi network
 - Make the script executable:
-`sudo chmod a+x ./obdPiDash/obdPiUpdate.sh`
+`sudo chmod a+x ./obdPiUpdate.sh`
 - Make this script run at startup: `sudo crontab -e` and add the following to the bottom:
 ```
-@reboot /bin/sh /home/pi/obdPiDash/obdPiUpdate.sh
+@reboot /bin/sh /home/pi/obdPiUpdate.sh
 ```
 Make sure to change your username if it's not pi
 
@@ -198,9 +201,9 @@ session    optional   pam_motd.so noupdate
 - Run `touch ~/.hushlogin`
 - Remove everything from /etc/motd
 - Make blackoutTerminal executable:
-- `sudo chmod a+x ./obdPiDash/blackoutTerminal.sh`
+- `sudo chmod a+x ./blackoutTerminal.sh`
 - Make this script run at startup: `sudo crontab -e` and add the following to the bottom:
 ```
-@reboot /bin/sh /home/pi/obdPiDash/blackoutTerminal.sh
+@reboot /bin/sh /home/pi/blackoutTerminal.sh
 ```
 Make sure to change your username if it's not pi
