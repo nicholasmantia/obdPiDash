@@ -17,7 +17,7 @@ import math
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-globalversion = "v1.3.4"
+globalversion = "v1.3.5"
 # 29/11/2023
 # Created by Joel Zeller
 # Edited by Charlie Howard
@@ -865,10 +865,10 @@ class MainApp(App):
         self.CPUTemp = sys.CPUTemp
 
     def toggleTempUnit(self):
-        if sys.TempUnit == "C":
-            sys.TempUnit = "F"
-        else:
+        if sys.TempUnit == "F":
             sys.TempUnit = "C"
+        else:
+            sys.TempUnit = "F"
 
     def toggleSpeedUnit(self):
         if sys.SpeedUnit == "KPH":

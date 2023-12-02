@@ -1,6 +1,5 @@
 #!/bin/bash
-
 cd
-cd /home/obd/obdPiDash/
+cd /home/pi/obdPiDash/
 python3 main.py
 cd

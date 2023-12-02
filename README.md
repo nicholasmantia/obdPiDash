@@ -6,7 +6,7 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 - Coolant Temp, Intake Temp, Battery Voltage, STFT, LTFT, Throttle Pos, Engine Load, Spark Advance, Gear Indicator, RPM (w/ MAX), Speed (w/ MAX)
 - Adjustable Warning thresholds for Coolant Temp, Intake Temp, STFT, LTFT, RPM and Speed
 - DTC Read and Clear Function
-- Selectable F/C MPH/KPH
+- Selectable C/F MPH/KPH
 - Brightness Control
 
 ## Screenshots & Photos:
@@ -21,10 +21,10 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 ![Alt text](Screenshots/Settings.png?raw=true "Title")
 
 ## Hardware and Setup I used:
-- Raspberry Pi Zero 2 W
+- Raspberry Pi 3B+ (Tested on Pi Zero 2W & Pi 4 2GB)
 - Raspberry Pi OS Bullseye 32-bit
 - Python 3.7.3
-- Official 7inch Raspberry Pi Display
+- WaveShare 4.3" DSI Touchscreen Display
 
 ## Install Kivy:
 
@@ -112,7 +112,7 @@ mtdev_%(name)s = probesysfs,provider=mtdev
 hid_%(name)s = probesysfs,provider=hidinput
 ````
 
-## Other Misc Setup (not needed Raspberry Pi Zero 2 W):
+## Other Misc Setup (not needed Raspberry Pi Zero 2 W/Pi 4):
 
 In raspi-config -> Advanced Options -> Memory Split
 - Change value to 512MB
@@ -140,24 +140,24 @@ https://python-obd.readthedocs.io/en/latest/#installation
 Description=Start OBDPi
 
 [Service]
-ExecStart=/bin/sh /home/pi/launcher.sh >/home/obd/obdPiDash/logs/log.log 2>&1
+ExecStart=/bin/sh /home/pi/launcher.sh >/home/pi/obdPiDash/logs/log.log 2>&1
 ExecStop=/usr/bin/pkill -9 -f main.py
-WorkingDirectory=/home/obd/obdPiDash/
+WorkingDirectory=/home/pi/obdPiDash/
 StandardOutput=inherit
 StandardError=inherit
-User=obd
+User=pi
 
 [Install]
 WantedBy=multi-user.target
 ```
-Make sure to change your username if it's not obd
+Make sure to change your username if it's not pi
 Ctrl+x to Save
 
 Now, enter the line:
-- `sudo systemctl enable obdPiDash.service`
+`sudo systemctl enable obdPiDash.service`
 
 Then make the launcher executable:
-- `sudo chmod a+x ./obdPiDash/obdPiLauncher.sh`
+`sudo chmod a+x ./obdPiDash/obdPiLauncher.sh`
 
 Reboot for final test
 
@@ -170,16 +170,37 @@ Modify in main.py
 - onPi <- its default 1, but will change to 0 in code if detected not running on Pi (for development on PC)
 - autobrightness < 0 will keep brightness same as last boot, 1 allows custom time if using RTC, 2 will always dim on boot
 
+## OPTIONAL Setup automatic updates on every boot if your car is in range of your WiFi network
+- Make the script executable:
+`sudo chmod a+x ./obdPiDash/obdPiUpdate.sh`
+- Make this script run at startup: `sudo crontab -e` and add the following to the bottom:
+```
+@reboot /bin/sh /home/obd/obdPiDash/obdPiUpdate.sh
+```
+Make sure to change your username if it's not pi
+
 ## OPTIONAL Clean up boot (Remove all boot text and logos):
-- /boot/config.txt
-`disable_splash=1
-boot_delay=0`
+- Add the following to the bottom of /boot/config.txt
+```
+disable_splash=1
+boot_delay=0
+```
 - /boot/cmdline.txt - change console=tty1 to console=tty3, add the following to the end of the line
-`splash quiet logo.nologo vt.global_cursor_default=0 consoleblank=0`
+```
+splash quiet logo.nologo vt.global_cursor_default=0 consoleblank=0
+```
 - In /etc/pam.d/login comment out the following lines
-`session    optional   pam_lastlog.so`
-`session    optional   pam_motd.so motd=/run/motd.dynamic`
-`session    optional   pam_motd.so noupdate`
+```
+session    optional   pam_lastlog.so
+session    optional   pam_motd.so motd=/run/motd.dynamic
+session    optional   pam_motd.so noupdate
+```
 - Run `touch ~/.hushlogin`
 - Remove everything from /etc/motd
-
+- Make blackoutTerminal executable:
+- `sudo chmod a+x ./obdPiDash/blackoutTerminal.sh`
+- Make this script run at startup: `sudo crontab -e` and add the following to the bottom:
+```
+@reboot /bin/sh /home/obd/obdPiDash/blackoutTerminal.sh
+```
+Make sure to change your username if it's not pi
