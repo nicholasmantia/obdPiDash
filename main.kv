@@ -8,7 +8,7 @@
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-# v1.4.0
+# v1.4.1
 # 02/12/2023
 # Created by Joel Zeller
 # Edited by Charlie Howard
@@ -640,6 +640,17 @@ AnchorLayout:
                     width: 70
                     on_press: app.save()
                     on_release: app.reboot()
+
+                Button:
+                    background_normal: 'data/elements/Settings/Update.png'
+                    background_down: 'data/elements/Settings/Update.png'
+                    opacity: 1
+                    pos: 730, 370
+                    size_hint: None, None
+                    height: 70
+                    width: 70
+                    on_press: app.save()
+                    on_release: app.update()
 
 
 

@@ -17,7 +17,7 @@ import math
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-globalversion = "v1.4.0"
+globalversion = "v1.4.1"
 # 29/11/2023
 # Created by Joel Zeller
 # Edited by Charlie Howard
@@ -805,11 +805,14 @@ class MainApp(App):
     def shutdown(obj):
         os.system("sudo shutdown -h now")
 
+    def update(obj):
+        os.system("sudo /home/obd/obdPiUpdate.sh")
+    
     def reboot(obj):
         os.system("sudo reboot")
 
     def killapp(obj):
-        os.system("sudo killall python3") # Kills all running processes and threads
+        os.system("/usr/bin/pkill -9 -f main.py") # Kills all running processes and threads
 
     def ScreenOnOff(obj,action):
         if action == "ON":
