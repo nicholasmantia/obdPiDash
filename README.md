@@ -94,15 +94,16 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 
 #### Navigate to obdPiDash directory and run main.py to create the config.ini file
 - `cd obdPiDash`
-- `sudo python3 main.py`
+- `python3 main.py`
 
 #### Configure for use with touch screen:
 
 Edit /.kivy/config.ini by:
-- `sudo su`
 - `cd`
 - `sudo nano .kivy/config.ini`
 
+Remove mouse cursor:
+- Replace the line `show_cursor = 1` with `show_cursor = 0`
 
 Change [input] to:
 ````
@@ -110,12 +111,6 @@ mouse = mouse
 mtdev_%(name)s = probesysfs,provider=mtdev
 hid_%(name)s = probesysfs,provider=hidinput
 ````
-
-`exit` to return to normal user
-
-You can also change this config for the non root user:
-- `cd`
-- `sudo nano .kivy/config.ini`
 
 ## Other Misc Setup (not needed Raspberry Pi Zero 2 W):
 

@@ -17,7 +17,7 @@ import math
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-globalversion = "V1.3.2"
+globalversion = "V1.3.3"
 # 29/11/2023
 # Created by Joel Zeller
 # Edited by Charlie Howard
