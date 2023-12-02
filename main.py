@@ -17,7 +17,7 @@ import math
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
-globalversion = "V1.3.3"
+globalversion = "v1.3.4"
 # 29/11/2023
 # Created by Joel Zeller
 # Edited by Charlie Howard
@@ -104,7 +104,7 @@ class sys:
     screen = 1
     brightness = 0
     shutdownflag = 0
-    TempUnit = "F"
+    TempUnit = "C"
     SpeedUnit = "MPH"
 
     def setbrightness(self, value):
