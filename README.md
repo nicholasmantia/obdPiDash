@@ -172,27 +172,8 @@ Modify in main.py
 - OBDEnabled <- 1 if you are using OBDII features, leave it ON
 - onPi <- its default 1, but will change to 0 in code if detected not running on Pi (for development on PC)
 - autobrightness < 0 will keep brightness same as last boot, 1 allows custom time if using RTC, 2 will always dim on boot
-
-## OPTIONAL Setup automatic updates on every boot if your car is in range of your WiFi network
-- Make the script executable:
+- Make the update script executable:
 `sudo chmod a+x ./obdPiUpdate.sh`
-- Make a service so this script runs at startup:
-```
-[Unit]
-Description=Update OBDPi
-After=syslog.target network-online.target
-
-[Service]
-ExecStart=/bin/sh /home/pi/obdPiUpdate.sh
-WorkingDirectory=/home/pi/obdPiDash/
-StandardOutput=inherit
-StandardError=inherit
-User=pi
-
-[Install]
-WantedBy=multi-user.target
-```
-Make sure to change your username if it's not pi
 
 ## OPTIONAL Clean up boot (Remove all boot text and logos):
 - Add the following to the bottom of /boot/config.txt
