@@ -23,7 +23,7 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 ## Hardware and Setup I used:
 - Raspberry Pi 3B+ (Tested on Pi Zero 2W & Pi 4 2GB)
 - Raspberry Pi OS Bullseye 32-bit
-- Python 3.7.3
+- Python 3.9.2
 - WaveShare 4.3" DSI Touchscreen Display
 
 ## Install Kivy:
@@ -175,7 +175,7 @@ Modify in main.py
 `sudo chmod a+x ./obdPiDash/obdPiUpdate.sh`
 - Make this script run at startup: `sudo crontab -e` and add the following to the bottom:
 ```
-@reboot /bin/sh /home/obd/obdPiDash/obdPiUpdate.sh
+@reboot /bin/sh /home/pi/obdPiDash/obdPiUpdate.sh
 ```
 Make sure to change your username if it's not pi
 
@@ -201,6 +201,6 @@ session    optional   pam_motd.so noupdate
 - `sudo chmod a+x ./obdPiDash/blackoutTerminal.sh`
 - Make this script run at startup: `sudo crontab -e` and add the following to the bottom:
 ```
-@reboot /bin/sh /home/obd/obdPiDash/blackoutTerminal.sh
+@reboot /bin/sh /home/pi/obdPiDash/blackoutTerminal.sh
 ```
 Make sure to change your username if it's not pi
