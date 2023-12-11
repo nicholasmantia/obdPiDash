@@ -76,7 +76,7 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 #### Install the dependencies:
 - `sudo apt update`
 - `sudo apt upgrade`
-- `sudo apt install pkg-config libgl1-mesa-dev libgles2-mesa-dev python3-setuptools libgstreamer1.0-dev git gstreamer1.0-plugins-{bad,base,good,ugly} gstreamer1.0-{omx,alsa} thon3-dev libmtdev-dev xclip xsel libjpeg-dev -y`
+- `sudo apt install pkg-config libgl1-mesa-dev libgles2-mesa-dev python3-setuptools libgstreamer1.0-dev git gstreamer1.0-plugins-{bad,base,good,ugly} gstreamer1.0-{omx,alsa} libmtdev-dev xclip xsel libjpeg-dev -y`
 
 #### Install pip3:
 - `sudo apt install python3-pip`
@@ -87,13 +87,13 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 - `pip3 install --upgrade Cython==0.29.19 pillow`
 
 #### Install Kivy:
-- `sudo pip3 install kivy`
+- `pip3 install kivy`
 
 #### Copy code and data folders to /home/pi/obdPiDash
 - `git clone https://github.com/charliehoward/obdPiDash.git`
 
 #### Copy all scripts to the home folder:
-- cp `obdPiDash/*.sh ./`
+- `cp obdPiDash/*.sh ./`
 
 #### Navigate to obdPiDash directory and run main.py to create the config.ini file
 - `cd obdPiDash`
@@ -125,7 +125,7 @@ https://python-obd.readthedocs.io/en/latest/#installation
 - `pip3 install obd`
 
 #### Install RPi.GPIO, Lite does not come with it..
-- `sudo apt-get install python3-rpi.gpio`
+- `sudo apt install python3-rpi.gpio`
 
 #### Bluetooth Setup:
 - `sudo bluetoothctl`
