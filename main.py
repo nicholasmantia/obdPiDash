@@ -320,11 +320,11 @@ class OBD:
             Speed_max = 150
 
             # Find value per segment rounded to 2 decimal places
-            CoolantTemp = round(CoolantTemp_max / 32.0, 2)
-            IntakeTemp = round(IntakeTemp_max / 32.0, 2)
-            Voltage = round(Voltage_max / 32.0, 2)
-            STFT = round(STFT_max / 32.0, 2)
-            LTFT = round(LTFT_max / 32.0, 2)
+            CoolantTemp = round(CoolantTemp_max / 16.0, 2)
+            IntakeTemp = round(IntakeTemp_max / 16.0, 2)
+            Voltage = round(Voltage_max / 16.0, 2)
+            STFT = round(STFT_max / 16.0, 2)
+            LTFT = round(LTFT_max / 16.0, 2)
             ThrottlePos = round(ThrottlePos_max / 32.0, 2)
             Load = round(Load_max / 32.0, 2)
             TimingAdv = round(TimingAdv_max / 32.0, 2)
