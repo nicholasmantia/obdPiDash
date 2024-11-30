@@ -400,7 +400,7 @@ class OBD:
                 try:
                     response_CoolantTemp = OBD.connection.query(OBD.cmd_CoolantTemp)
                     if str(response_CoolantTemp.value.magnitude) != 'None':
-                        OBD.CoolantTemp = int(response_CoolantTemp.value.magnitude * 9.0 / 5.0 + 32.0)
+                        OBD.CoolantTemp = int(response_CoolantTemp.value.magnitude * 9.0 / 5.0 + 16.0)
                 except:
                     print("Could not get OBD Response - Coolant Temp")
 
