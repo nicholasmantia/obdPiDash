@@ -25,7 +25,7 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 - Raspberry Pi 3B+ (Tested on Pi Zero 2W & Pi 4 2GB)
 - Raspberry Pi OS Bullseye 32-bit
 - Python 3.9.2
-- WaveShare 4.3" DSI Touchscreen Display
+- ROADOM Raspberry Pi Screen, 10.1" Touchscreen Monitor
 
 ## Install Kivy:
 
