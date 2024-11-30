@@ -779,7 +779,7 @@ class MainApp(App):
 
 
         # S2K Bar Image Selection
-        if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp)) <= 32:
+        if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp)) <= 16:
             self.CoolantTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp))))+'.png')
         if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp)) <= 32:
             self.IntakeTemp_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp))))+'.png')
