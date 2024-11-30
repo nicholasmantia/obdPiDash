@@ -105,11 +105,11 @@ AnchorLayout:
                     pos: 849, 477
                     font_name: GaugeFont
                     color: (
-                        (242, 109, 106)  # Red
+                        (242, 109, 106, 1)  # Red
                         if app.CoolantTemp > app.CoolantTempWarn
-                        else (232, 214, 7)  # Yellow
+                        else (232, 214, 7, 1)  # Yellow
                         if app.CoolantTempWarn - 10 <= app.CoolantTemp <= app.CoolantTempWarn
-                        else (170, 229, 146)  # Green
+                        else (170, 229, 146, 1)  # Green
                     )
                 Label:
                     text:
