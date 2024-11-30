@@ -103,9 +103,9 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 849, 477
+                    pos: 839, 476
                     font_name: GaugeFont
-                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - 10 <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
+                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.2 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text:
                         (str(math.floor(app.IntakeTemp))) + u'\N{DEGREE SIGN}' if app.TempUnit == "F" \
