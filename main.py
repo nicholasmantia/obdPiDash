@@ -297,7 +297,7 @@ class OBD:
 
     class gauge:  # Vars for S2K gauge GUI
         class image:  # images to be used for S2K style gauges
-            CoolantTemp = "data/gauges/normal/S2K_0.png"
+            CoolantTemp = "data/gauges/temp_normal/Coolant_0.png"
             IntakeTemp = "data/gauges/normal/S2K_0.png"
             Voltage = "data/gauges/normal/S2K_0.png"
             STFT = "data/gauges/split/S2K_0.png"
@@ -780,7 +780,7 @@ class MainApp(App):
 
         # S2K Bar Image Selection
         if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp)) <= 32:
-            self.CoolantTemp_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp))))+'.png')
+            self.CoolantTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp))))+'.png')
         if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp)) <= 32:
             self.IntakeTemp_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp))))+'.png')
         if OBD.enable.Voltage and 0 <= int(round(self.Voltage/OBD.gauge.persegment.Voltage)) <= 32:
