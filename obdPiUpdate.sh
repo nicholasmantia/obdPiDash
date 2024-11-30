@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/nick.mantia/obdPiDash
+cd /home/nick.mantia/myDash
 git pull
 cd
 sudo systemctl restart obdPiDash.service
