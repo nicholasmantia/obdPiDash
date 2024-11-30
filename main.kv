@@ -104,7 +104,13 @@ AnchorLayout:
                     font_hinting: None
                     pos: 849, 477
                     font_name: GaugeFont
-                    color: (1,0,0,1) if app.CoolantTemp > app.CoolantTempWarn else (0,1,0,1)
+                    color = (
+                        (242, 109, 106)  # Red
+                        if app.CoolantTemp > app.CoolantTempWarn
+                        else (232, 214, 7)  # Yellow
+                        if app.CoolantTempWarn - 10 <= app.CoolantTemp <= app.CoolantTempWarn
+                        else (170, 229, 146)  # Green
+                    )
                 Label:
                     text:
                         (str(math.floor(app.IntakeTemp))) + u'\N{DEGREE SIGN}' if app.TempUnit == "F" \
