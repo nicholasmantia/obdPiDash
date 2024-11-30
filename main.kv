@@ -30,7 +30,7 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/WarningRed.png"
                     opacity: 1 if app.CoolantTemp > app.CoolantTempWarn else 0
-                    pos: 0, 250
+                    pos: 849, 496
                     size_hint: None, None
                     height: 250
                     width: 250
@@ -45,7 +45,7 @@ AnchorLayout:
                 Image:
                     source: str(app.CoolantTemp_Image)
                     opacity: 1
-                    pos: 0, 350
+                    pos: 849, 496
                     size_hint: None, None
                     height: 150
                     width: 250
@@ -54,7 +54,7 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/WarningRed.png"
                     opacity: 1 if app.IntakeTemp > app.IntakeTempWarn else 0
-                    pos: 275, 250
+                    pos: 657, 496
                     size_hint: None, None
                     height: 250
                     width: 250
@@ -69,7 +69,7 @@ AnchorLayout:
                 Image:
                     source: str(app.IntakeTemp_Image)
                     opacity: 1
-                    pos: 275, 350
+                    pos: 657, 496
                     size_hint: None, None
                     height: 150
                     width: 250
