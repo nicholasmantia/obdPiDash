@@ -37,7 +37,7 @@ AnchorLayout:
 
                 Image:
                     source: "data/gauges/Coolant.png"
-                    opacity: 1
+                    opacity: 1 if app.CoolantTemp <= app.CoolantTempWarn else 0
                     pos: 849, 489
                     size_hint: None, None
                     height: 85
