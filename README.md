@@ -10,7 +10,7 @@ A python project to pull vehicle information from a bluetooth OBD-II adapter and
 - Brightness Control
 
 ## Screenshots & Photos:
-![Digital Dash](https://github.com/user-attachments/assets/50b076fa-04da-4fd2-a630-bf079e456a05)
+![Digital Dash](https://github.com/user-attachments/assets/70e9e7a8-bbff-4cd5-a104-6c76da9b7450)
 ![Alt text](Screenshots/PassView.jpg?raw=true "Title")
 ![Alt text](Screenshots/TopDown.jpg?raw=true "Title")
 ![Alt text](Screenshots/Gauges1.png?raw=true "Title")
