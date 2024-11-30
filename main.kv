@@ -30,7 +30,7 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/WarningRed.png"
                     opacity: 1 if app.CoolantTemp > app.CoolantTempWarn else 0
-                    pos: 849, 492
+                    pos: 849, 487
                     size_hint: None, None
                     height: 250
                     width: 250
@@ -38,14 +38,14 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/Coolant.png"
                     opacity: 1
-                    pos: 849, 492
+                    pos: 849, 487
                     size_hint: None, None
                     height: 85
                     width: 120
                 Image:
                     source: str(app.CoolantTemp_Image)
                     opacity: 1
-                    pos: 849, 492
+                    pos: 849, 487
                     size_hint: None, None
                     height: 150
                     width: 250
@@ -54,7 +54,7 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/WarningRed.png"
                     opacity: 1 if app.IntakeTemp > app.IntakeTempWarn else 0
-                    pos: 657, 494
+                    pos: 657, 489
                     size_hint: None, None
                     height: 250
                     width: 250
@@ -62,14 +62,14 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/Voltage.png"
                     opacity: 1
-                    pos: 657, 494
+                    pos: 657, 489
                     size_hint: None, None
                     height: 85
                     width: 146
                 Image:
                     source: str(app.IntakeTemp_Image)
                     opacity: 1
-                    pos: 657, 494
+                    pos: 657, 489
                     size_hint: None, None
                     height: 150
                     width: 250
