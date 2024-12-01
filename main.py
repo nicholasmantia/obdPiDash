@@ -211,6 +211,7 @@ class OBD:
         FuelTrim_inc = 1
         Generic = 0
         Generic_inc = 1
+        FuelLevel_inc = 1
 
     class enable:  # used to turn on and off OBD cmds to speed up communication
         RPM = 1
