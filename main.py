@@ -769,7 +769,7 @@ class MainApp(App):
             if OBD.dev.IntakeTemp < 1:
                 OBD.dev.IntakeTemp_inc = 1
             self.IntakeTemp = OBD.dev.IntakeTemp
-
+            
             # Voltage dev code
             if OBD.dev.Voltage_inc == 1:
                 OBD.dev.CoolantTemp = OBD.dev.CoolantTemp + 1
