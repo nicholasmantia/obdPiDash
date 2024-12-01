@@ -62,14 +62,14 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/MPH.png"
                     opacity: 1
-                    pos: 39, 56
+                    pos: 42, 56
                     size_hint: None, None
                     height: 420
                     width: 320
                 Image:
                     source: str(app.Speed_Image)
                     opacity: 1
-                    pos: 39, 56
+                    pos: 42, 56
                     size_hint: None, None
                     height: 420
                     width: 320
@@ -1258,10 +1258,10 @@ AnchorLayout:
                 background_normal: 'data/elements/Dock/DockPill.png'
                 background_down: 'data/elements/Dock/DockPill_pressed.png'
                 opacity: 1
-                pos: 66, Dock_y0
+                pos: 207, Dock_y0
                 size_hint: None, None
                 height: 40
-                width: 110
+                width: 80
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge1'
@@ -1272,22 +1272,22 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "1"
-                    text_size: 110, 40
+                    text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
                     font_size: 22
                     font_name: ButtonFont
-                    pos: self.parent.center_x - 50, self.parent.center_y - 53
+                    pos: self.parent.center_x - 50, self.parent.center_y - 50
 
             Button:
                 id: dock_gauge2
                 background_normal: 'data/elements/Dock/DockPill.png'
                 background_down: 'data/elements/Dock/DockPill_pressed.png'
                 opacity: 1
-                pos: 168, Dock_y0
+                pos: 312, Dock_y0
                 size_hint: None, None
                 height: 40
-                width: 110
+                width: 80
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge2'
@@ -1298,22 +1298,22 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "2"
-                    text_size: 110, 40
+                    text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
                     font_size: 22
                     font_name: ButtonFont
-                    pos: self.parent.center_x - 50, self.parent.center_y - 53
+                    pos: self.parent.center_x - 50, self.parent.center_y - 50
 
             Button:
                 id: dock_gauge3
                 background_normal: 'data/elements/Dock/DockPill.png'
                 background_down: 'data/elements/Dock/DockPill_pressed.png'
                 opacity: 1
-                pos: 270, Dock_y0
+                pos: 418, Dock_y0
                 size_hint: None, None
                 height: 40
-                width: 110
+                width: 80
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge3'
@@ -1324,22 +1324,22 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "3"
-                    text_size: 110, 40
+                    text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
                     font_size: 22
                     font_name: ButtonFont
-                    pos: self.parent.center_x - 50, self.parent.center_y - 53
+                    pos: self.parent.center_x - 50, self.parent.center_y - 50
 
             Button:
                 id: dock_gauge4
                 background_normal: 'data/elements/Dock/DockPill.png'
                 background_down: 'data/elements/Dock/DockPill_pressed.png'
                 opacity: 1
-                pos: 371, Dock_y0
+                pos: 523, Dock_y0
                 size_hint: None, None
                 height: 40
-                width: 110
+                width: 80
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge4'
@@ -1350,22 +1350,22 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "4"
-                    text_size: 110, 40
+                    text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
                     font_size: 22
                     font_name: ButtonFont
-                    pos: self.parent.center_x - 50, self.parent.center_y - 53
+                    pos: self.parent.center_x - 50, self.parent.center_y - 50
 
             Button:
                 id: dock_max
                 background_normal: 'data/elements/Dock/DockPill.png'
                 background_down: 'data/elements/Dock/DockPill_pressed.png'
                 opacity: 1
-                pos: 472, Dock_y0
+                pos: 629, Dock_y0
                 size_hint: None, None
                 height: 40
-                width: 110
+                width: 80
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'max'
@@ -1375,19 +1375,19 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "MAX"
-                    text_size: 110, 40
+                    text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 22
+                    font_size: 19
                     font_name: ButtonFont
-                    pos: self.parent.center_x - 50, self.parent.center_y - 53
+                    pos: self.parent.center_x - 50, self.parent.center_y - 50
 
             Button:
                 id: dock_CEL
                 background_normal: 'data/elements/Dock/DockPill_CEL.png'
                 background_down: 'data/elements/Dock/DockPill_CEL_pressed.png'
                 opacity: 1
-                pos: 573, Dock_y0
+                pos: 735, Dock_y0
                 size_hint: None, None
                 height: 70
                 width: 101
