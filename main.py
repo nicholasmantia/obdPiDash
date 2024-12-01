@@ -215,6 +215,8 @@ class OBD:
         FuelLevel_inc = 1
         Voltage = 0
         Voltage_inc = 1
+        IntakeTemp = 0
+        IntakeTemp_inc = 1
 
     class enable:  # used to turn on and off OBD cmds to speed up communication
         RPM = 1
@@ -756,6 +758,17 @@ class MainApp(App):
             if OBD.dev.CoolantTemp < 1:
                 OBD.dev.CoolantTemp_inc = 1
             self.CoolantTemp = OBD.dev.CoolantTemp
+
+            #Intake Temp Dev Code
+            if OBD.dev.IntakeTemp_inc == 1:
+                OBD.dev.IntakeTemp = OBD.dev.IntakeTemp + 1
+            else:
+                OBD.dev.IntakeTemp = OBD.dev.IntakeTemp - 1
+            if OBD.dev.IntakeTemp > 200:
+                OBD.dev.IntakeTemp_inc = 0
+            if OBD.dev.IntakeTemp < 1:
+                OBD.dev.IntakeTemp_inc = 1
+            self.IntakeTemp = OBD.dev.IntakeTemp
 
             # Voltage dev code
             if OBD.dev.Voltage_inc == 1:
