@@ -108,6 +108,29 @@ AnchorLayout:
                     width: 146
                     nocache: True
 
+                Image:
+                    source: "data/gauges/warning/LTFT_red.png"
+                    opacity: 1 if abs(app.LTFT) > app.LTFTWarn else 0
+                    pos: 60, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 125
+
+                Image:
+                    source: "data/gauges/LTFT.png"
+                    opacity: 1
+                    pos: 60, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 125
+                Image:
+                    source: str(app.LTFT_Image)
+                    opacity: 1
+                    pos: 60, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 125
+
                 Label:
                     text:
                         (str(math.floor(app.CoolantTemp/10))) + u'\N{DEGREE SIGN}' if app.TempUnit == "F" \
@@ -196,29 +219,6 @@ AnchorLayout:
                     source: str(app.STFT_Image)
                     opacity: 1
                     pos: 275, 350
-                    size_hint: None, None
-                    height: 150
-                    width: 250
-
-                Image:
-                    source: "data/gauges/warning/WarningRed.png"
-                    opacity: 1 if abs(app.LTFT) > app.LTFTWarn else 0
-                    pos: 550, 250
-                    size_hint: None, None
-                    height: 250
-                    width: 250
-
-                Image:
-                    source: "data/gauges/S2K_LTFT.png"
-                    opacity: 1
-                    pos: 550, 350
-                    size_hint: None, None
-                    height: 150
-                    width: 250
-                Image:
-                    source: str(app.LTFT_Image)
-                    opacity: 1
-                    pos: 550, 350
                     size_hint: None, None
                     height: 150
                     width: 250
