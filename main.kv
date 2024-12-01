@@ -28,7 +28,7 @@ AnchorLayout:
                     source: "data/wallpapers/digital_dash_background.png"
 
                 Image:
-                    source: "data/gauges/warning/Coolant_warning.png"
+                    source: "data/gauges/warning/Coolant_red.png"
                     opacity: 1 if app.CoolantTemp > app.CoolantTempWarn else 0
                     pos: 849, 489
                     size_hint: None, None
@@ -67,13 +67,30 @@ AnchorLayout:
                     width: 320
                     nocache: True
 
+                # Intake Temp
                 Image:
-                    source: "data/gauges/warning/WarningRed.png"
+                    source: "data/gauges/warning/IntakeTemp_red.png"
                     opacity: 1 if app.IntakeTemp > app.IntakeTempWarn else 0
-                    pos: 657, 491
+                    pos: 234, 491
                     size_hint: None, None
-                    height: 250
-                    width: 250
+                    height: 85
+                    width: 120
+
+                Image:
+                    source: "data/gauges/IntakeTemp.png"
+                    opacity: 1
+                    pos: 234, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 120
+                Image:
+                    source: str(app.IntakeTemp_Image)
+                    opacity: 1
+                    pos: 234, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 120
+                    nocache: True
 
                 Image:
                     source: "data/gauges/Voltage.png"
@@ -83,28 +100,12 @@ AnchorLayout:
                     height: 85
                     width: 146
                 Image:
-                    source: str(app.IntakeTemp_Image)
+                    source: str(app.Voltage_Image)
                     opacity: 1
                     pos: 657, 491
                     size_hint: None, None
-                    height: 150
-                    width: 250
-                    nocache: True
-
-                Image:
-                    source: "data/gauges/S2K_Battery.png"
-                    opacity: 1
-                    pos: 550, 350
-                    size_hint: None, None
-                    height: 150
-                    width: 250
-                Image:
-                    source: str(app.Voltage_Image)
-                    opacity: 1
-                    pos: 550, 350
-                    size_hint: None, None
-                    height: 150
-                    width: 250
+                    height: 85
+                    width: 146
                     nocache: True
 
                 Label:
