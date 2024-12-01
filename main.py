@@ -638,6 +638,7 @@ class MainApp(App):
     LTFTWarn = NumericProperty(0)
     STFTWarn = NumericProperty(0)
 
+    Speed_Image = StringProperty()
     CoolantTemp_Image = StringProperty()
     IntakeTemp_Image = StringProperty()
     Voltage_Image = StringProperty()
