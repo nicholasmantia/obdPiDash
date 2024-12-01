@@ -16,7 +16,7 @@
 #:set ButtonFont "data/fonts/Orbitron-Bold.ttf"
 
 # Dock Y ZERO coordinate base. This will make it easier to fine tune the dock pos when installed behind radio opening.
-#:set Dock_y0 4
+#:set Dock_y0 7
 
 AnchorLayout:
     ScreenManager:
@@ -1233,10 +1233,10 @@ AnchorLayout:
                 background_normal: 'data/elements/Dock/SettingsButton.png'
                 background_down: 'data/elements/Dock/SettingsButton_pressed.png'
                 opacity: 1
-                pos: 670, Dock_y0
+                pos: 908, Dock_y0
                 size_hint: None, None
-                height: 70
-                width: 70
+                height: 40
+                width: 40
                 on_press: app.save()
                 on_press: sm.current = 'settings'
 
@@ -1245,10 +1245,10 @@ AnchorLayout:
                 background_normal: 'data/elements/Dock/PowerButton.png'
                 background_down: 'data/elements/Dock/PowerButton_pressed.png'
                 opacity: 1
-                pos: 730, Dock_y0
+                pos: 963, Dock_y0
                 size_hint: None, None
-                height: 70
-                width: 70
+                height: 40
+                width: 40
                 on_press: app.save()
                 on_press: app.ScreenOnOff("OFF")
                 on_release: app.shutdown()
@@ -1384,8 +1384,8 @@ AnchorLayout:
 
             Button:
                 id: dock_CEL
-                background_normal: 'data/elements/Dock/DockPill_CEL.png'
-                background_down: 'data/elements/Dock/DockPill_CEL_pressed.png'
+                background_normal: 'data/elements/Dock/DockPill.png'
+                background_down: 'data/elements/Dock/DockPill_pressed.png'
                 opacity: 1
                 pos: 735, Dock_y0
                 size_hint: None, None
@@ -1396,10 +1396,12 @@ AnchorLayout:
                     sm.current = 'DTC'
                     app.OBDOFF()
                     app.save()
+                Label:
+                    text: "CEL"
+                    text_size: 80, 40
+                    valign: 'middle'
+                    halign: 'center'
+                    font_size: 19
+                    font_name: ButtonFont
+                    pos: self.parent.center_x - 50, self.parent.center_y - 50
 
-            FloatLayout:  # Black "cover" for hidden part of screen
-                canvas:
-                    Rectangle:
-                        source: 'data/elements/Dock/UnviewableArea.png'
-                        pos: 0, 0
-                        size: 800, Dock_y0
