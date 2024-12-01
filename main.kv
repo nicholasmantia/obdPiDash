@@ -336,6 +336,22 @@ AnchorLayout:
                     height: 150
                     width: 250
 
+                Image:
+                    source: "data/gauges/S2K_LTFT.png"
+                    opacity: 1
+                    pos: 550, 350
+                    size_hint: None, None
+                    height: 150
+                    width: 250
+                Image:
+                    source: str(app.LTFT_Image)
+                    opacity: 1
+                    pos: 550, 350
+                    size_hint: None, None
+                    height: 150
+                    width: 250
+
+
                 Label:
                     text:
                         (str(math.floor(app.CoolantTemp))) + u'\N{DEGREE SIGN}' if app.TempUnit == "F" \
