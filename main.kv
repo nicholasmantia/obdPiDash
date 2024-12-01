@@ -112,14 +112,14 @@ AnchorLayout:
                     pos: 657, 491
                     size_hint: None, None
                     height: 85
-                    width: 146
+                    width: 150
                 Image:
                     source: str(app.Voltage_Image)
                     opacity: 1
                     pos: 657, 491
                     size_hint: None, None
                     height: 85
-                    width: 146
+                    width: 150
                     nocache: True
 
                 Image:
@@ -128,28 +128,28 @@ AnchorLayout:
                     pos: 60, 491
                     size_hint: None, None
                     height: 85
-                    width: 125
+                    width: 140
                 Image:
                     source: "data/gauges/LTFT_yellow.png"
                     opacity: 1 if app.LTFTWarn - (0.1765 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else 0
                     pos: 60, 491
                     size_hint: None, None
                     height: 85
-                    width: 125
+                    width: 140
                 Image:
                     source: "data/gauges/LTFT.png"
                     opacity: 1 if app.LTFT <= app.LTFTWarn - (0.1765 * app.LTFTWarn) else 0
                     pos: 60, 491
                     size_hint: None, None
                     height: 85
-                    width: 125
+                    width: 140
                 Image:
                     source: str(app.LTFT_Image)
                     opacity: 1
                     pos: 60, 491
                     size_hint: None, None
                     height: 85
-                    width: 125
+                    width: 140
 
                 Label:
                     text:
