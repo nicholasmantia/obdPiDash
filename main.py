@@ -786,8 +786,8 @@ class MainApp(App):
             self.Speed_Image = str('data/gauges/mph_normal/MPH_'+(str(int(round(self.Speed/OBD.gauge.persegment.Speed))))+'.png')
         if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp)) <= 16:
             self.CoolantTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp))))+'.png')
-        if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp)) <= 32:
-            self.IntakeTemp_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp))))+'.png')
+        if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp)) <= 16:
+            self.IntakeTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp))))+'.png')
         if OBD.enable.Voltage and 0 <= int(round(self.Voltage/OBD.gauge.persegment.Voltage)) <= 32:
             self.Voltage_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.Voltage/OBD.gauge.persegment.Voltage))))+'.png')
         if OBD.enable.STFT and -16 <= int(round(self.STFT/OBD.gauge.persegment.STFT)) <= 16:
