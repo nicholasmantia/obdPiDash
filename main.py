@@ -753,7 +753,7 @@ class MainApp(App):
                 OBD.dev.CoolantTemp = OBD.dev.CoolantTemp + 1
             else:
                 OBD.dev.CoolantTemp = OBD.dev.CoolantTemp - 1
-            if OBD.dev.CoolantTemp > 300:
+            if OBD.dev.CoolantTemp > 299:
                 OBD.dev.CoolantTemp_inc = 0
             if OBD.dev.CoolantTemp < 1:
                 OBD.dev.CoolantTemp_inc = 1
@@ -813,6 +813,7 @@ class MainApp(App):
                 OBD.dev.Generic_inc = 0
             if OBD.dev.Generic < 10:
                 OBD.dev.Generic_inc = 1
+
             # self.IntakeTemp = OBD.dev.Generic
             self.ThrottlePos = OBD.dev.Generic
             self.MAF = OBD.dev.Generic
