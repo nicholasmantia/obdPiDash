@@ -230,7 +230,7 @@ class OBD:
         DistanceSinceDTC = 0
         CatTemp = 0
         Voltage = 1  # On Start-Up Screen
-        Gear = 0
+        Gear = 1
 
         def disableAll(obj):
             OBD.enable.RPM = 0

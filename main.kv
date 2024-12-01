@@ -26,6 +26,20 @@ AnchorLayout:
             FloatLayout:
                 Image:
                     source: "data/wallpapers/digital_dash_background.png"
+                
+                # Current Gear
+                Label:
+                    text: app.currentgear
+                    font_size: 300
+                    size_hint: None, None
+                    height: 280
+                    width: 136
+                    halign: 'center'
+                    valign: 'middle'
+                    font_hinting: None
+                    pos: 455, 65
+                    font_name: GaugeFont
+                    color: (232 / 255, 214 / 255, 7 / 255, 1)
 
                 # Coolant Temp
                 Image:
@@ -116,7 +130,7 @@ AnchorLayout:
                 Image:
                     source: str(app.Voltage_Image)
                     opacity: 1
-                    pos: 657, 491
+                    pos: 667, 491
                     size_hint: None, None
                     height: 85
                     width: 150
@@ -191,7 +205,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 672, 476
+                    pos: 678, 476
                     font_name: GaugeFont
                     color: (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -204,7 +218,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 70, 476
+                    pos: 60, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.LTFT > app.LTFTWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.LTFTWarn - (0.1765 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
 
@@ -1257,6 +1271,8 @@ AnchorLayout:
                     app.OBDEnabler("Voltage",1)
                     app.OBDEnabler("Speed",1)
                     app.OBDEnabler("LTFT",1)
+                    app.OBDEnabler("RPM",1)
+                    app.OBDEnabler("Gear",1)
                     app.save()
                 Label:
                     text: "1"
