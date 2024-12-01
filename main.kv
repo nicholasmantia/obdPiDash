@@ -52,6 +52,22 @@ AnchorLayout:
                     nocache: True
 
                 Image:
+                    source: "data/gauges/MPH.png"
+                    opacity: 1 if app.CoolantTemp <= app.CoolantTempWarn else 0
+                    pos: 849, 489
+                    size_hint: None, None
+                    height: 85
+                    width: 120
+                Image:
+                    source: str(app.CoolantTemp_Image)
+                    opacity: 1
+                    pos: 849, 489
+                    size_hint: None, None
+                    height: 85
+                    width: 120
+                    nocache: True
+
+                Image:
                     source: "data/gauges/warning/WarningRed.png"
                     opacity: 1 if app.IntakeTemp > app.IntakeTempWarn else 0
                     pos: 657, 491
