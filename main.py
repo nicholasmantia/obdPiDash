@@ -225,7 +225,7 @@ class OBD:
         TimingAdv = 0
         MAF = 0
         RunTime = 0
-        FuelLevel = 0
+        FuelLevel = 1
         WarmUpsSinceDTC = 0
         DistanceSinceDTC = 0
         CatTemp = 0
@@ -306,6 +306,7 @@ class OBD:
             ThrottlePos = "data/gauges/normal/S2K_0.png"
             Load = "data/gauges/normal/S2K_0.png"
             TimingAdv = "data/gauges/normal/S2K_0.png"
+            FuelLevel = "data/gauges/fuel_level_normal/FuelLevel_0.png"
 
         class persegment:
             # Max values for each S2K Bar Gauge
@@ -319,6 +320,7 @@ class OBD:
             TimingAdv_max = 50
             RPM_max = 9500
             Speed_max = 150
+            FuelLevel_max = 100
 
             # Find value per segment rounded to 2 decimal places
             Speed = round(Speed_max / 32.0, 2)
@@ -331,6 +333,7 @@ class OBD:
             ThrottlePos = round(ThrottlePos_max / 32.0, 2)
             Load = round(Load_max / 32.0, 2)
             TimingAdv = round(TimingAdv_max / 32.0, 2)
+            FuelLevel = round(FuelLevel_max / 17.0, 2)
 
     # Thread functions - to be called later
     # These will run in the background and will not block the GUI
@@ -649,6 +652,7 @@ class MainApp(App):
     ThrottlePos_Image = StringProperty()
     Load_Image = StringProperty()
     TimingAdv_Image = StringProperty()
+    FuelLevel_Image = StringProperty()
 
     RPMGaugeMax = OBD.gauge.persegment.RPM_max
     SpeedGaugeMax = OBD.gauge.persegment.Speed_max
@@ -761,6 +765,17 @@ class MainApp(App):
             self.LTFT = OBD.dev.FuelTrim
             self.STFT = OBD.dev.FuelTrim
 
+            # Simulate fuel level change in developer mode for testing
+            if OBD.dev.FuelLevel_inc == 1:
+                OBD.dev.FuelLevel = OBD.dev.FuelLevel + 1
+            else:
+                OBD.dev.FuelLevel = OBD.dev.FuelLevel - 1
+            if OBD.dev.FuelLevel > 100:
+                OBD.dev.FuelLevel_inc = 0
+            if OBD.dev.FuelLevel < 0:
+                OBD.dev.FuelLevel_inc = 1
+            self.FuelLevel = OBD.dev.FuelLevel
+
             #Generic Dev Code
             if OBD.dev.Generic_inc == 1:
                 OBD.dev.Generic = OBD.dev.Generic + 1
@@ -774,7 +789,7 @@ class MainApp(App):
             self.ThrottlePos = OBD.dev.Generic
             self.MAF = OBD.dev.Generic
             self.RunTime = OBD.dev.Generic
-            self.FuelLevel = OBD.dev.Generic
+            # self.FuelLevel = OBD.dev.Generic
             self.WarmUpsSinceDTC = OBD.dev.Generic
             self.DistanceSinceDTC = OBD.dev.Generic
             self.Voltage = OBD.dev.Generic / 5.0
@@ -804,6 +819,10 @@ class MainApp(App):
             self.Load_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.Load/OBD.gauge.persegment.Load))))+'.png')
         if OBD.enable.TimingAdv and 0 <= int(round(self.TimingAdv/OBD.gauge.persegment.TimingAdv)) <= 32:
             self.TimingAdv_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.TimingAdv/OBD.gauge.persegment.TimingAdv))))+'.png')
+        if OBD.enable.FuelLevel and 0 <= int(round(self.FuelLevel/OBD.gauge.persegment.FuelLevel)) <= 32:
+            self.FuelLevel_Image = str('data/gauges/fuel_level_normal/FuelLevel_'+(str(int(round(self.FuelLevel/OBD.gauge.persegment.FuelLevel))))+'.png')
+
+            
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -925,6 +944,8 @@ class MainApp(App):
         OBD.warning.RPM = int(math.floor(value))
     def SpeedWarnSlider(self, instance, value):
         OBD.warning.Speed = int(math.floor(value))
+    def checkFuelLevelWarning(self, instance, value):
+        OBD.warning.FuelLevel = int(math.floor(value))
 
     def ReadDTC(self):
         if OBDEnabled and OBD.Connected:

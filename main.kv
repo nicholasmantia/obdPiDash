@@ -72,6 +72,23 @@ AnchorLayout:
                     width: 120
                     nocache: True
 
+                # Fuel Level
+                Image:
+                    source: "data/gauges/FuelLevel.png"
+                    opacity: 1
+                    pos: 425, 290
+                    size_hint: None, None
+                    height: 251
+                    width: 178
+                Image:
+                    source: str(app.FuelLevel_Image)
+                    opacity: 1
+                    pos: 425, 290
+                    size_hint: None, None
+                    height: 251
+                    width: 178
+                    nocache: True
+
                 # Speed
                 Image:
                     source: "data/gauges/MPH.png"
