@@ -214,7 +214,7 @@ class OBD:
 
     class enable:  # used to turn on and off OBD cmds to speed up communication
         RPM = 0
-        Speed = 0
+        Speed = 1
         CoolantTemp = 1  # On Start-Up Screen
         IntakeTemp = 1  # On Start-Up Screen
         IntakePressure = 0
@@ -297,6 +297,7 @@ class OBD:
 
     class gauge:  # Vars for S2K gauge GUI
         class image:  # images to be used for S2K style gauges
+            Speed = "data/gauges/mph_normal/MPH_0.png"
             CoolantTemp = "data/gauges/temp_normal/Coolant_0.png"
             IntakeTemp = "data/gauges/normal/S2K_0.png"
             Voltage = "data/gauges/normal/S2K_0.png"
@@ -320,6 +321,7 @@ class OBD:
             Speed_max = 150
 
             # Find value per segment rounded to 2 decimal places
+            Speed = round(Speed_max / 32.0, 2)
             CoolantTemp = round(CoolantTemp_max / 16.0, 2)
             IntakeTemp = round(IntakeTemp_max / 16.0, 2)
             Voltage = round(Voltage_max / 16.0, 2)
@@ -779,6 +781,8 @@ class MainApp(App):
 
 
         # S2K Bar Image Selection
+        if OBD.enable.Speed and 0 <= int(round(self.Speed/OBD.gauge.persegment.Speed)) <= 32:
+            self.Speed_Image = str('data/gauges/mph_normal/MPH_'+(str(int(round(self.Speed/OBD.gauge.persegment.Speed))))+'.png')
         if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp)) <= 16:
             self.CoolantTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp))))+'.png')
         if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp)) <= 32:
