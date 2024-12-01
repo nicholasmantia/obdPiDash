@@ -51,14 +51,14 @@ AnchorLayout:
                     width: 120
                 Image:
                     source: "data/gauges/Coolant_yellow.png"
-                    opacity: 1 if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else 0
+                    opacity: 1 if app.CoolantTempWarn - (0.1765 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else 0
                     pos: 849, 489
                     size_hint: None, None
                     height: 85
                     width: 120
                 Image:
                     source: "data/gauges/Coolant.png"
-                    opacity: 1 if app.CoolantTemp <= app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) else 0
+                    opacity: 1 if app.CoolantTemp <= app.CoolantTempWarn - (0.1765 * app.CoolantTempWarn) else 0
                     pos: 849, 489
                     size_hint: None, None
                     height: 85
@@ -133,14 +133,14 @@ AnchorLayout:
                     width: 120
                 Image:
                     source: "data/gauges/IntakeTemp_yellow.png"
-                    opacity: 1 if app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else 0
+                    opacity: 1 if app.IntakeTempWarn - (0.1765 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else 0
                     pos: 234, 491
                     size_hint: None, None
                     height: 85
                     width: 120
                 Image:
                     source: "data/gauges/IntakeTemp.png"
-                    opacity: 1 if app.IntakeTemp <= app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) else 0
+                    opacity: 1 if app.IntakeTemp <= app.IntakeTempWarn - (0.1765 * app.IntakeTempWarn) else 0
                     pos: 234, 491
                     size_hint: None, None
                     height: 85
@@ -179,14 +179,14 @@ AnchorLayout:
                     width: 145
                 Image:
                     source: "data/gauges/LTFT_yellow.png"
-                    opacity: 1 if app.LTFTWarn - (0.1875 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else 0
+                    opacity: 1 if app.LTFTWarn - (0.1765 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else 0
                     pos: 45, 491
                     size_hint: None, None
                     height: 85
                     width: 145
                 Image:
                     source: "data/gauges/LTFT.png"
-                    opacity: 1 if app.LTFT <= app.LTFTWarn - (0.1875 * app.LTFTWarn) else 0
+                    opacity: 1 if app.LTFT <= app.LTFTWarn - (0.1765 * app.LTFTWarn) else 0
                     pos: 45, 491
                     size_hint: None, None
                     height: 85
@@ -213,7 +213,7 @@ AnchorLayout:
                     font_hinting: None
                     pos: 839, 476
                     font_name: GaugeFont
-                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
+                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1765 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text:
                         (str(math.floor(app.IntakeTemp))) if app.TempUnit == "F" \
@@ -228,7 +228,7 @@ AnchorLayout:
                     font_hinting: None
                     pos: 224, 476
                     font_name: GaugeFont
-                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.IntakeTemp > app.IntakeTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
+                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.IntakeTemp > app.IntakeTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1765 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text: str(app.Voltage)
                     font_size: 63
@@ -254,7 +254,7 @@ AnchorLayout:
                     font_hinting: None
                     pos: 54, 476
                     font_name: GaugeFont
-                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.LTFT > app.LTFTWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.LTFTWarn - (0.1875 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
+                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.LTFT > app.LTFTWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.LTFTWarn - (0.1765 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text:
                         str(math.floor(app.Speed)) if app.SpeedUnit == "MPH" \
