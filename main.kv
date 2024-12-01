@@ -254,7 +254,7 @@ AnchorLayout:
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
                 Label:
-                    text: str(app.RPM)
+                    text: str(math.floor(app.RPM/100))
                     font_size: 99
                     size_hint: None, None
                     height: 85
