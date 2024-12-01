@@ -89,6 +89,23 @@ AnchorLayout:
                     width: 320
                     nocache: True
 
+                # RPM
+                Image:
+                    source: "data/gauges/RPM.png"
+                    opacity: 1
+                    pos: 658, 59
+                    size_hint: None, None
+                    height: 420
+                    width: 320
+                Image:
+                    source: str(app.RPM_Image)
+                    opacity: 1
+                    pos: 658, 59
+                    size_hint: None, None
+                    height: 420
+                    width: 320
+                    nocache: True
+
                 # Intake Temp
                 Image:
                     source: "data/gauges/warning/IntakeTemp_red.png"
@@ -234,6 +251,19 @@ AnchorLayout:
                     valign: 'middle'
                     font_hinting: None
                     pos: 188, 92
+                    font_name: GaugeFont
+                    color: (232 / 255, 214 / 255, 7 / 255, 1)
+                Label:
+                    text: str(app.RPM)
+                    font_size: 99
+                    size_hint: None, None
+                    height: 85
+                    width: 150
+                    text_size: self.width, None
+                    halign: 'right'
+                    valign: 'middle'
+                    font_hinting: None
+                    pos: 843, 92
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 

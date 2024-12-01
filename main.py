@@ -322,6 +322,7 @@ class OBD:
 
             # Find value per segment rounded to 2 decimal places
             Speed = round(Speed_max / 32.0, 2)
+            RPM = round(RPM_max / 30.0, 2)
             CoolantTemp = round(CoolantTemp_max / 16.0, 2)
             IntakeTemp = round(IntakeTemp_max / 16.0, 2)
             Voltage = round(Voltage_max / 16.0, 2)
@@ -402,7 +403,7 @@ class OBD:
                 try:
                     response_CoolantTemp = OBD.connection.query(OBD.cmd_CoolantTemp)
                     if str(response_CoolantTemp.value.magnitude) != 'None':
-                        OBD.CoolantTemp = int(response_CoolantTemp.value.magnitude * 9.0 / 5.0 + 16.0)
+                        OBD.CoolantTemp = int(response_CoolantTemp.value.magnitude * 9.0 / 5.0 + 32.0)
                 except:
                     print("Could not get OBD Response - Coolant Temp")
 
@@ -639,6 +640,7 @@ class MainApp(App):
     STFTWarn = NumericProperty(0)
 
     Speed_Image = StringProperty()
+    RPM_Image = StringProperty()
     CoolantTemp_Image = StringProperty()
     IntakeTemp_Image = StringProperty()
     Voltage_Image = StringProperty()
@@ -784,6 +786,8 @@ class MainApp(App):
         # S2K Bar Image Selection
         if OBD.enable.Speed and 0 <= int(round(self.Speed/OBD.gauge.persegment.Speed)) <= 32:
             self.Speed_Image = str('data/gauges/mph_normal/MPH_'+(str(int(round(self.Speed/OBD.gauge.persegment.Speed))))+'.png')
+        if OBD.enable.RPM and 0 <= int(round(self.RPM/OBD.gauge.persegment.RPM)) <= 32:
+            self.RPM_Image = str('data/gauges/rpm_normal/RPM_'+(str(int(round(self.RPM/OBD.gauge.persegment.RPM))))+'.png')
         if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp)) <= 16:
             self.CoolantTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp))))+'.png')
         if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp)) <= 16:
