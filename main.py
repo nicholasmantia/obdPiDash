@@ -772,7 +772,7 @@ class MainApp(App):
             
             # Voltage dev code
             if OBD.dev.Voltage_inc == 1:
-                OBD.dev.CoolantTemp = OBD.dev.CoolantTemp + 1
+                OBD.dev.Voltage = OBD.dev.Voltage + 1
             else:
                 OBD.dev.Voltage = OBD.dev.Voltage - 1
             if OBD.dev.Voltage > 20:
