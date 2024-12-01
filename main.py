@@ -786,9 +786,9 @@ class MainApp(App):
                 OBD.dev.FuelTrim = OBD.dev.FuelTrim + 1
             else:
                 OBD.dev.FuelTrim = OBD.dev.FuelTrim - 1
-            if OBD.dev.FuelTrim > 35:
+            if OBD.dev.FuelTrim > 25:
                 OBD.dev.FuelTrim_inc = 0
-            if OBD.dev.FuelTrim < -24:
+            if OBD.dev.FuelTrim < -25:
                 OBD.dev.FuelTrim_inc = 1
             self.LTFT = OBD.dev.FuelTrim
             self.STFT = OBD.dev.FuelTrim
