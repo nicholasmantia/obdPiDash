@@ -226,10 +226,13 @@ AnchorLayout:
                         str(math.floor(app.Speed)) if app.SpeedUnit == "MPH" \
                         else str(math.floor(app.Speed / 0.6213711922))
                     font_size: 63
+                    size_hint: None, None
+                    height: 85
+                    width: 120
+                    text_size: self.width, None
                     halign: 'right'
                     valign: 'middle'
-                    text_size: self.width, None
-                    font_size: 80
+                    font_hinting: None
                     pos: 203, 81
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
