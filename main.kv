@@ -27,6 +27,7 @@ AnchorLayout:
                 Image:
                     source: "data/wallpapers/digital_dash_background.png"
 
+                # Coolant Temp
                 Image:
                     source: "data/gauges/warning/Coolant_red.png"
                     opacity: 1 if app.CoolantTemp > app.CoolantTempWarn else 0
@@ -34,7 +35,13 @@ AnchorLayout:
                     size_hint: None, None
                     height: 85
                     width: 120
-
+                Image:
+                    source: "data/gauges/Coolant_yellow.png"
+                    opacity: 1 if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else 0
+                    pos: 849, 489
+                    size_hint: None, None
+                    height: 85
+                    width: 120
                 Image:
                     source: "data/gauges/Coolant.png"
                     opacity: 1 if app.CoolantTemp <= app.CoolantTempWarn else 0
@@ -51,6 +58,7 @@ AnchorLayout:
                     width: 120
                     nocache: True
 
+                # Speed
                 Image:
                     source: "data/gauges/MPH.png"
                     opacity: 1
@@ -145,7 +153,7 @@ AnchorLayout:
                     font_hinting: None
                     pos: 839, 476
                     font_name: GaugeFont
-                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.15 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
+                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text:
                         (str(math.floor(app.IntakeTemp))) + u'\N{DEGREE SIGN}' if app.TempUnit == "F" \
