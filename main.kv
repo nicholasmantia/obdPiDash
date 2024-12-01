@@ -139,28 +139,28 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/LTFT_red.png"
                     opacity: 1 if app.LTFT > app.LTFTWarn else 0
-                    pos: 60, 491
+                    pos: 50, 491
                     size_hint: None, None
                     height: 85
                     width: 140
                 Image:
                     source: "data/gauges/LTFT_yellow.png"
                     opacity: 1 if app.LTFTWarn - (0.1765 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else 0
-                    pos: 60, 491
+                    pos: 50, 491
                     size_hint: None, None
                     height: 85
                     width: 140
                 Image:
                     source: "data/gauges/LTFT.png"
                     opacity: 1 if app.LTFT <= app.LTFTWarn - (0.1765 * app.LTFTWarn) else 0
-                    pos: 60, 491
+                    pos: 50, 491
                     size_hint: None, None
                     height: 85
                     width: 140
                 Image:
                     source: str(app.LTFT_Image)
                     opacity: 1
-                    pos: 70, 491
+                    pos: 60, 491
                     size_hint: None, None
                     height: 85
                     width: 140
@@ -218,9 +218,20 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 66, 476
+                    pos: 56, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.LTFT > app.LTFTWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.LTFTWarn - (0.1765 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
+                Label:
+                    text:
+                        str(math.floor(app.Speed)) if app.SpeedUnit == "MPH" \
+                        else str(math.floor(app.Speed / 0.6213711922))
+                    font_size: 63
+                    halign: 'right'
+                    valign: 'middle'
+                    text_size: self.width, None
+                    font_size: 80
+                    pos: 203, 81
+                    font_name: GaugeFont
 
         Gauge2Screen:
             name: "gauge2"
