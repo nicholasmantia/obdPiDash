@@ -299,10 +299,10 @@ class OBD:
         class image:  # images to be used for S2K style gauges
             Speed = "data/gauges/mph_normal/MPH_0.png"
             CoolantTemp = "data/gauges/temp_normal/Coolant_0.png"
-            IntakeTemp = "data/gauges/normal/S2K_0.png"
-            Voltage = "data/gauges/normal/S2K_0.png"
+            IntakeTemp = "data/gauges/temp_normal/Coolant_0.png"
+            Voltage = "data/gauges/temp_normal/Coolant_0.png"
             STFT = "data/gauges/split/S2K_0.png"
-            LTFT = "data/gauges/split/S2K_0.png"
+            LTFT = "data/gauges/temp_normal/Coolant_0.png"
             ThrottlePos = "data/gauges/normal/S2K_0.png"
             Load = "data/gauges/normal/S2K_0.png"
             TimingAdv = "data/gauges/normal/S2K_0.png"
