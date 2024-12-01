@@ -213,14 +213,14 @@ class OBD:
         Generic_inc = 1
 
     class enable:  # used to turn on and off OBD cmds to speed up communication
-        RPM = 0
+        RPM = 1
         Speed = 1
         CoolantTemp = 1  # On Start-Up Screen
         IntakeTemp = 1  # On Start-Up Screen
         IntakePressure = 0
         Load = 0
         ThrottlePos = 0
-        LTFT = 0
+        LTFT = 1
         STFT = 0
         TimingAdv = 0
         MAF = 0
