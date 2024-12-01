@@ -767,15 +767,15 @@ class MainApp(App):
             self.STFT = OBD.dev.FuelTrim
 
             # Simulate fuel level change in developer mode for testing
-            if OBD.dev.FuelLevel_inc == 1:
-                OBD.dev.FuelLevel = OBD.dev.FuelLevel + 1
-            else:
-                OBD.dev.FuelLevel = OBD.dev.FuelLevel - 1
-            if OBD.dev.FuelLevel > 100:
-                OBD.dev.FuelLevel_inc = 0
-            if OBD.dev.FuelLevel < 0:
-                OBD.dev.FuelLevel_inc = 1
-            self.FuelLevel = OBD.dev.FuelLevel
+            # if OBD.dev.FuelLevel_inc == 1:
+            #     OBD.dev.FuelLevel = OBD.dev.FuelLevel + 1
+            # else:
+            #     OBD.dev.FuelLevel = OBD.dev.FuelLevel - 1
+            # if OBD.dev.FuelLevel > 100:
+            #     OBD.dev.FuelLevel_inc = 0
+            # if OBD.dev.FuelLevel < 0:
+            #     OBD.dev.FuelLevel_inc = 1
+            # self.FuelLevel = OBD.dev.FuelLevel
 
             #Generic Dev Code
             if OBD.dev.Generic_inc == 1:
@@ -790,7 +790,7 @@ class MainApp(App):
             self.ThrottlePos = OBD.dev.Generic
             self.MAF = OBD.dev.Generic
             self.RunTime = OBD.dev.Generic
-            # self.FuelLevel = OBD.dev.Generic
+            self.FuelLevel = OBD.dev.Generic
             self.WarmUpsSinceDTC = OBD.dev.Generic
             self.DistanceSinceDTC = OBD.dev.Generic
             self.Voltage = OBD.dev.Generic / 5.0
