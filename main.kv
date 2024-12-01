@@ -201,7 +201,7 @@ AnchorLayout:
 
                 Label:
                     text:
-                        (str(math.floor(app.CoolantTemp/10))) if app.TempUnit == "F" \
+                        (str(math.floor(app.CoolantTemp))) if app.TempUnit == "F" \
                         else (str(math.floor((app.CoolantTemp-32)*(5/9))))
                     font_size: 63
                     size_hint: None, None
