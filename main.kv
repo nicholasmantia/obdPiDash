@@ -168,7 +168,7 @@ AnchorLayout:
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1765 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text:
-                        (str(math.floor(app.IntakeTemp/10))) if app.TempUnit == "F" \
+                        (str(math.floor(app.IntakeTemp))) if app.TempUnit == "F" \
                         else (str(math.floor((app.IntakeTemp-32)*(5/9))))
                     font_size: 63
                     size_hint: None, None
@@ -191,11 +191,11 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 647, 476
+                    pos: 667, 476
                     font_name: GaugeFont
                     color: (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
-                    text: (str(app.LTFT)) + "%"
+                    text: str(app.LTFT)
                     font_size: 63
                     size_hint: None, None
                     height: 85
