@@ -173,31 +173,31 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/LTFT_red.png"
                     opacity: 1 if app.LTFT > app.LTFTWarn else 0
-                    pos: 50, 491
+                    pos: 45, 491
                     size_hint: None, None
                     height: 85
-                    width: 140
+                    width: 145
                 Image:
                     source: "data/gauges/LTFT_yellow.png"
                     opacity: 1 if app.LTFTWarn - (0.1765 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else 0
-                    pos: 50, 491
+                    pos: 45, 491
                     size_hint: None, None
                     height: 85
-                    width: 140
+                    width: 145
                 Image:
                     source: "data/gauges/LTFT.png"
                     opacity: 1 if app.LTFT <= app.LTFTWarn - (0.1765 * app.LTFTWarn) else 0
-                    pos: 50, 491
+                    pos: 45, 491
                     size_hint: None, None
                     height: 85
-                    width: 140
+                    width: 145
                 Image:
                     source: str(app.LTFT_Image)
                     opacity: 1
-                    pos: 60, 491
+                    pos: 55, 491
                     size_hint: None, None
                     height: 85
-                    width: 140
+                    width: 145
 
                 Label:
                     text:
