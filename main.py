@@ -748,7 +748,7 @@ class MainApp(App):
                 OBD.dev.CoolantTemp = OBD.dev.CoolantTemp + 1
             else:
                 OBD.dev.CoolantTemp = OBD.dev.CoolantTemp - 1
-            if OBD.dev.CoolantTemp > 250:
+            if OBD.dev.CoolantTemp > 300:
                 OBD.dev.CoolantTemp_inc = 0
             if OBD.dev.CoolantTemp < 1:
                 OBD.dev.CoolantTemp_inc = 1
