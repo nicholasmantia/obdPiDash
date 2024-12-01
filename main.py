@@ -20,7 +20,7 @@ import math
 globalversion = "v1.4.4"
 # 29/11/2023
 # Created by Joel Zeller
-# Edited by Charlie Howard
+# Edited by Charlie Howard & Nick Mantia
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Configuration Variables
@@ -37,8 +37,8 @@ autobrightness = 0          # AutoBrightness on Boot #set to 1 if you have the n
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # For PC dev work
 from kivy.config import Config
-Config.set('graphics', 'width', '800')
-Config.set('graphics', 'height', '480')
+Config.set('graphics', 'width', '1024')
+Config.set('graphics', 'height', '600')
 from kivy.core.window import Window
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
