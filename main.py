@@ -813,7 +813,7 @@ class MainApp(App):
                 OBD.dev.Generic_inc = 0
             if OBD.dev.Generic < 10:
                 OBD.dev.Generic_inc = 1
-            self.IntakeTemp = OBD.dev.Generic
+            # self.IntakeTemp = OBD.dev.Generic
             self.ThrottlePos = OBD.dev.Generic
             self.MAF = OBD.dev.Generic
             self.RunTime = OBD.dev.Generic
