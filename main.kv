@@ -83,10 +83,16 @@ AnchorLayout:
                     size_hint: None, None
                     height: 85
                     width: 120
-
+                Image:
+                    source: "data/gauges/IntakeTemp_yellow.png"
+                    opacity: 1 if app.IntakeTempWarn - (0.1765 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else 0
+                    pos: 234, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 120
                 Image:
                     source: "data/gauges/IntakeTemp.png"
-                    opacity: 1
+                    opacity: 1 if app.IntakeTemp <= app.IntakeTempWarn - (0.1765 * app.IntakeTempWarn) else 0
                     pos: 234, 491
                     size_hint: None, None
                     height: 85
@@ -158,15 +164,17 @@ AnchorLayout:
                     text:
                         (str(math.floor(app.IntakeTemp))) + u'\N{DEGREE SIGN}' if app.TempUnit == "F" \
                         else (str(math.floor((app.IntakeTemp-32)*(5/9)))) + u'\N{DEGREE SIGN}'
-                    font_size: 70
+                    font_size: 63
                     size_hint: None, None
-                    height: 150
-                    width: 250
-                    halign: 'center'
+                    height: 85
+                    width: 120
+                    text_size: self.width, None
+                    halign: 'right'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 275, 230
+                    pos: 234, 476
                     font_name: GaugeFont
+                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.IntakeTemp > app.IntakeTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1765 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text: (str(app.Voltage)) + "v "
                     font_size: 70
