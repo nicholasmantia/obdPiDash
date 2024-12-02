@@ -831,7 +831,7 @@ class MainApp(App):
         if OBD.enable.Speed and 0 <= int(round(self.Speed/OBD.gauge.persegment.Speed)) <= 32:
             self.Speed_Image = str('data/gauges/mph_normal/MPH_'+(str(int(round(self.Speed/OBD.gauge.persegment.Speed))))+'.png')
         if OBD.enable.RPM and 0 <= int(round(self.RPM/OBD.gauge.persegment.RPM)) <= 32:
-            self.RPM_Image = str('data/gauges/rpm_normal/RPM_'+(str(int(round(self.RPM/OBD.gauge.persegment.RPM))))+'.png')
+            self.RPM_Image = str('data/gauges/rpm_normal/RPM_'+(str(int(floor(self.RPM/OBD.gauge.persegment.RPM))))+'.png')
         if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp)) <= 16:
             self.CoolantTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp))))+'.png')
         if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp)) <= 16:
