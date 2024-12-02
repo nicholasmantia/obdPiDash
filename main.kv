@@ -154,6 +154,15 @@ AnchorLayout:
                     width: 120
                     nocache: True
 
+                # Check Engine Light
+                Image:
+                    source: "data/gauges/CheckEngineLight.png"
+                    opacity: 1 if app.DTCqty > 0 else 0
+                    pos: 661, 440
+                    size_hint: None, None
+                    height: 19
+                    width: 27
+
                 # Voltage
                 Image:
                     source: "data/gauges/warning/Voltage_red.png"
