@@ -1359,12 +1359,12 @@ AnchorLayout:
                 id: dock_gauge1
                 background_normal: 'data/elements/Dock/DockPill.png'
                 background_down: 'data/elements/Dock/DockPill_pressed.png'
-                active_color: (0.2, 0.6, 0.8, 1)  # Color when active
                 opacity: 1
                 pos: 207, Dock_y0
                 size_hint: None, None
                 height: 40
                 width: 80
+                on_press: self.toggle_active()
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge1'
@@ -1377,7 +1377,6 @@ AnchorLayout:
                     app.OBDEnabler("RPM",1)
                     app.OBDEnabler("Gear",1)
                     app.save()
-                    self.toggle_active()
                 Label:
                     text: "1"
                     text_size: 80, 40
