@@ -154,9 +154,24 @@ AnchorLayout:
                     width: 120
                     nocache: True
 
+                # Volatge
+                Image:
+                    source: "data/gauges/warning/Voltage_red.png"
+                    opacity: 1 if app.Volatge > 16.25 else 0
+                    pos: 657, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 150
+                Image:
+                    source: "data/gauges/Voltage_yello.png"
+                    opacity: 1 if 16.25 - (0.1875 * 16.25) <= app.Volatge <= 16.25 else 0
+                    pos: 657, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 150
                 Image:
                     source: "data/gauges/Voltage.png"
-                    opacity: 1
+                    opacity: 1 if app.Volatge <= 16.25 - (0.1875 * 16.25) else 0
                     pos: 657, 491
                     size_hint: None, None
                     height: 85
