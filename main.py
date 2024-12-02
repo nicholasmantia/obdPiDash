@@ -840,8 +840,8 @@ class MainApp(App):
             self.Voltage_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.Voltage/OBD.gauge.persegment.Voltage))))+'.png')
         if OBD.enable.STFT and -16 <= int(round(self.STFT/OBD.gauge.persegment.STFT)) <= 16:
             self.STFT_Image = str('data/gauges/split/s2k_' + (str(int(round(self.STFT/OBD.gauge.persegment.STFT))))+'.png')
-        if OBD.enable.LTFT and -8 <= int(round(self.LTFT/OBD.gauge.persegment.LTFT)) <= 8:
-            self.LTFT_Image = str('data/gauges/split_temp_normal/Coolant_' + (str(int(round(self.LTFT/OBD.gauge.persegment.LTFT))))+'.png')
+        if OBD.enable.LTFT and 0 <= int(round(self.LTFT/OBD.gauge.persegment.LTFT)) <= 16:
+            self.LTFT_Image = str('data/gauges/temp_normal/Coolant_' + (str(int(round(self.LTFT/OBD.gauge.persegment.LTFT))))+'.png')
         if OBD.enable.ThrottlePos and 0 <= int(round(self.ThrottlePos/OBD.gauge.persegment.ThrottlePos)) <= 32:
             self.ThrottlePos_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.ThrottlePos/OBD.gauge.persegment.ThrottlePos))))+'.png')
         if OBD.enable.Load and 0 <= int(round(self.Load/OBD.gauge.persegment.Load)) <= 32:
