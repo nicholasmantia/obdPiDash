@@ -1355,7 +1355,7 @@ AnchorLayout:
                 on_press: app.ScreenOnOff("OFF")
                 on_release: app.shutdown()
 
-            Button:
+            <MyButton@Button>:
                 id: dock_gauge1
                 background_normal: 'data/elements/Dock/DockPill.png'
                 background_down: 'data/elements/Dock/DockPill_pressed.png'
@@ -1377,6 +1377,7 @@ AnchorLayout:
                     app.OBDEnabler("RPM",1)
                     app.OBDEnabler("Gear",1)
                     app.save()
+                    self.toggle_active()
                 Label:
                     text: "1"
                     text_size: 80, 40

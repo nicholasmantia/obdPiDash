@@ -559,6 +559,17 @@ if developermode == 0:
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Define Kivy Classes
 #MAIN SCREEN CLASSES
+class MyButton(Button):
+    is_active = BooleanProperty(False)  # Tracks the active state
+    active_color = ListProperty([0.2, 0.6, 0.8, 1])  # Active state color
+    inactive_color = ListProperty([1, 1, 1, 1])  # Inactive state color
+
+    def toggle_active(self):
+        # Toggle the state
+        self.is_active = not self.is_active
+        # Update the color
+        self.background_color = self.active_color if self.is_active else self.inactive_color
+        
 class Gauge1Screen(Screen):
     pass
 class Gauge2Screen(Screen):
