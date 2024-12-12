@@ -2,7 +2,6 @@ import kivy
 #kivy.require('1.11.0')
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
-from kivy.uix.boxlayout import BoxLayout
 from kivymd.theming import ThemeManager
 from kivy.clock import Clock
 from kivy.properties import NumericProperty, StringProperty, ObjectProperty, ListProperty
@@ -17,7 +16,6 @@ import socket
 import time
 import os
 import math
-from datetime import datetime
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -573,36 +571,9 @@ class MyButton(Button):
         self.is_active = not self.is_active
         # Update the color
         self.background_color = self.active_color if self.is_active else self.inactive_color
-
+        
 class Gauge1Screen(Screen):
-    def __init__(self, **kwargs):
-    super().__init__(**kwargs)
-    layout = BoxLayout(orientation="vertical", padding=10, spacing=10)
-    
-    # Add the clock label
-    self.time_label = MDLabel(
-        font_style="H5", halign="center", theme_text_color="Primary"
-    )
-    layout.add_widget(self.time_label)
-    
-    # Add other widgets as needed
-    info_label = MDLabel(
-        text="Information Screen", font_style="H6", halign="center"
-    )
-    layout.add_widget(info_label)
-
-    self.add_widget(layout)
-
-    def on_enter(self):
-        # Start updating time when this screen is active
-        self.clock_event = Clock.schedule_interval(self.update_time, 1)
-
-    def on_leave(self):
-        # Stop updating time when leaving the screen
-        Clock.unschedule(self.clock_event)
-
-    def update_time(self, dt):
-        self.time_label.text = datetime.now().strftime('%H:%M:%S')
+    pass
 class Gauge2Screen(Screen):
     pass
 class Gauge3Screen(Screen):
@@ -633,19 +604,7 @@ class MainApp(App):
     def build(self):
         Clock.schedule_interval(self.updatevariables, .1)
         Clock.schedule_interval(self.updateOBDdata, .01)
-        # Schedule the update_time method to run every second
-        Clock.schedule_interval(self.update_time, 1)
-        # Create a Label to display the time
-        self.time_label = Label(font_size='40sp')
 
-        # Initialize the time on startup
-        self.update_time(0)
-        return self.time_label
-
-    def update_time(self, dt):
-        # Get the current time and update the label
-        self.time_label.text = datetime.now().strftime('%H:%M:%S')
-        
 # ---------------------------------------------------------------------------------------------------------------------------------------------
     theme_cls = ThemeManager()
     version = StringProperty()
