@@ -16,6 +16,7 @@ import socket
 import time
 import os
 import math
+from datetime import datetime
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -571,7 +572,7 @@ class MyButton(Button):
         self.is_active = not self.is_active
         # Update the color
         self.background_color = self.active_color if self.is_active else self.inactive_color
-        
+
 class Gauge1Screen(Screen):
     pass
 class Gauge2Screen(Screen):
@@ -604,7 +605,17 @@ class MainApp(App):
     def build(self):
         Clock.schedule_interval(self.updatevariables, .1)
         Clock.schedule_interval(self.updateOBDdata, .01)
+        self.time_label = MDLabel(font_size='40sp')
+        # Schedule the update_time method to run every second
+        Clock.schedule_interval(self.update_time, 1)
+        # Initialize the time on startup
+        self.update_time(0)
+        return self.time_label
 
+    def update_time(self, dt):
+        # Get the current time and update the label
+        self.time_label.text = datetime.now().strftime('%H:%M:%S')
+        
 # ---------------------------------------------------------------------------------------------------------------------------------------------
     theme_cls = ThemeManager()
     version = StringProperty()
@@ -1080,4 +1091,4 @@ class MainApp(App):
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 if __name__ =='__main__':
-    MainApp().run()
+    Mainl().run()
