@@ -307,7 +307,15 @@ AnchorLayout:
                     pos: 777, 92
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
-
+                Label:
+                    id: time_label
+                    text: app.get_time()  # Method to get the current time
+                    font_size: 50
+                    halign: 'center'
+                    valign: 'middle'
+                    pos: 0, 0
+                    font_name: GaugeFont
+                    
         Gauge2Screen:
             name: "gauge2"
             FloatLayout:

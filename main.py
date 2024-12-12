@@ -10,6 +10,7 @@ from kivymd.label import MDLabel
 from kivy.metrics import dp
 from kivy.uix.button import Button
 from kivy.properties import BooleanProperty, ListProperty
+from datetime import datetime
 import threading
 import subprocess
 import socket
@@ -573,7 +574,16 @@ class MyButton(Button):
         self.background_color = self.active_color if self.is_active else self.inactive_color
         
 class Gauge1Screen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Update the time every second
+        Clock.schedule_interval(self.update_time, 1)
+
+    def update_time(self, dt):
+        # Get current time and update the label
+        current_time = datetime.now().strftime("%H:%M:%S")
+        self.ids.time_label.text = current_time
+
 class Gauge2Screen(Screen):
     pass
 class Gauge3Screen(Screen):
@@ -604,6 +614,7 @@ class MainApp(App):
     def build(self):
         Clock.schedule_interval(self.updatevariables, .1)
         Clock.schedule_interval(self.updateOBDdata, .01)
+        return Gauge1Screen()
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
     theme_cls = ThemeManager()
