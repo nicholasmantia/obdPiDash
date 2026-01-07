@@ -144,12 +144,12 @@ https://python-obd.readthedocs.io/en/latest/#installation
 Description=Start OBDPi
 
 [Service]
-ExecStart=/bin/sh /home/pi/obdPiLauncher.sh
+ExecStart=/bin/sh /home/nick.mantia/obdPiLauncher.sh
 ExecStop=/usr/bin/pkill -9 -f main.py
-WorkingDirectory=/home/pi/obdPiDash/
+WorkingDirectory=/home/nick.mantia/obdPiDash/
 StandardOutput=inherit
 StandardError=inherit
-User=pi
+User=nick.mantia
 
 [Install]
 WantedBy=multi-user.target
