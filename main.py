@@ -357,7 +357,7 @@ class OBD:
             print("Failed to RF Bind - Device may already be connected?")
         time.sleep(2)
         try:
-            OBD.connection = obd.OBD()  # auto-connects to USB or RF port
+            OBD.connection = obd.OBD("/dev/ttyUSB0", fast=False)  # auto-connects to USB or RF port
             OBD.cmd_RPM = obd.commands.RPM
             OBD.cmd_Speed = obd.commands.SPEED
             OBD.cmd_CoolantTemp = obd.commands.COOLANT_TEMP
