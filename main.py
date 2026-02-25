@@ -240,7 +240,6 @@ class vehicle:
             Returns the new cls.current string.
             """
             if now is None:
-                import time
                 now = time.time()
 
             # ----- P/N heuristics (OBD-only guess; not real PRNDL) -----
@@ -324,10 +323,10 @@ class vehicle:
 
             # If we shifted, trust cur unless it's wildly wrong.
             # If we didn't shift, keep cur but allow snap-to-best when it's clearly better.
-            # if best_err > cls.MAX_ACCEPTABLE_ERROR:
-            #     cls.current = "?"
-            #     cls._last_update_t = now
-            #     return cls.current
+            if best_err > cls.MAX_ACCEPTABLE_ERROR:
+                cls.current = "?"
+                cls._last_update_t = now
+                return cls.current
 
             # If cur is far from best, snap to best (helps when you start logging mid-drive)
             cur_err = abs(ratios[cur] - ratio)
@@ -753,6 +752,7 @@ class MainApp(App):
     def build(self):
         Clock.schedule_interval(self.updatevariables, .1)
         Clock.schedule_interval(self.updateOBDdata, .05)
+        Clock.schedule_interval(self.updateClock, 1)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
     theme_cls = ThemeManager()
@@ -790,6 +790,7 @@ class MainApp(App):
     DistanceSinceDTC = NumericProperty(0)
     CatTemp = NumericProperty(0)
     Voltage = NumericProperty(0)
+    CurrentTime = StringProperty()
 
     DTC0 = StringProperty()
     DTC1 = StringProperty()
@@ -855,6 +856,9 @@ class MainApp(App):
             except:
                 print("Gear Calculation Failed")
 
+    def updateClock(self, *args):
+        self.CurrentTime = time.strftime("%I:%M:%S %p")
+        
     def updateOBDdata(self, *args):
         if OBD.Connected and developermode == 0:
             try:

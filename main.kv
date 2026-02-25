@@ -45,28 +45,28 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/Coolant_red.png"
                     opacity: 1 if app.CoolantTemp > app.CoolantTempWarn else 0
-                    pos: 849, 476
+                    pos: 820, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: "data/gauges/Coolant_yellow.png"
                     opacity: 1 if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else 0
-                    pos: 849, 476
+                    pos: 820, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: "data/gauges/Coolant.png"
                     opacity: 1 if app.CoolantTemp <= app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) else 0
-                    pos: 849, 476
+                    pos: 820, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: str(app.CoolantTemp_Image)
                     opacity: 1
-                    pos: 849, 520
+                    pos: 820, 520
                     size_hint: None, None
                     height: 85
                     width: 158
@@ -110,28 +110,28 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/IntakeTemp_red.png"
                     opacity: 1 if app.IntakeTemp > app.IntakeTempWarn else 0
-                    pos: 234, 476
+                    pos: 209, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: "data/gauges/IntakeTemp_yellow.png"
                     opacity: 1 if app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else 0
-                    pos: 234, 476
+                    pos: 209, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: "data/gauges/IntakeTemp.png"
                     opacity: 1 if app.IntakeTemp <= app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) else 0
-                    pos: 234, 476
+                    pos: 209, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: str(app.IntakeTemp_Image)
                     opacity: 1
-                    pos: 234, 520
+                    pos: 209, 520
                     size_hint: None, None
                     height: 85
                     width: 158
@@ -150,28 +150,28 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/Voltage_red.png"
                     opacity: 1 if app.Voltage > 16.25 else 0
-                    pos: 657, 476
+                    pos: 646, 476
                     size_hint: None, None
                     height: 85
                     width: 150
                 Image:
                     source: "data/gauges/Voltage_yellow.png"
                     opacity: 1 if 16.25 - (0.1875 * 16.25) <= app.Voltage <= 16.25 else 0
-                    pos: 657, 476
+                    pos: 646, 476
                     size_hint: None, None
                     height: 85
                     width: 150
                 Image:
                     source: "data/gauges/Voltage.png"
                     opacity: 1 if app.Voltage <= 16.25 - (0.1875 * 16.25) else 0
-                    pos: 657, 476
+                    pos: 646, 476
                     size_hint: None, None
                     height: 85
                     width: 150
                 Image:
                     source: str(app.Voltage_Image)
                     opacity: 1
-                    pos: 667, 520
+                    pos: 646, 520
                     size_hint: None, None
                     height: 85
                     width: 150
@@ -201,7 +201,7 @@ AnchorLayout:
                 Image:
                     source: str(app.LTFT_Image)
                     opacity: 1
-                    pos: 55, 520
+                    pos: 26, 520
                     size_hint: None, None
                     height: 85
                     width: 145
@@ -218,7 +218,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 839, 476
+                    pos: 820, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -233,7 +233,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 224, 476
+                    pos: 209, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.IntakeTemp > app.IntakeTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -246,7 +246,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 672, 476
+                    pos: 646, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.Voltage > 16.25 else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * 16.25) <= app.IntakeTemp <= 16.25 else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -259,7 +259,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 54, 476
+                    pos: 26, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.LTFT > app.LTFTWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.LTFTWarn - (0.1875 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -1267,6 +1267,15 @@ AnchorLayout:
 
     AnchorLayout: #define the QUICKEYS area
         FloatLayout:
+            Label:
+                text: app.CurrentTime
+                valign: 'middle'
+                halign: 'center'
+                font_size: 46
+                font_name: GaugeFont
+                pos: 20, Dock_y0
+                color: (232/255, 214/255, 7/255, 1)
+
             Button:
                 id: dock_settings
                 background_normal: 'data/elements/Dock/SettingsButton.png'
