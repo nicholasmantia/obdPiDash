@@ -37,7 +37,7 @@ AnchorLayout:
                     halign: 'center'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 462, 63
+                    pos: 462, 71
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 
@@ -1269,8 +1269,6 @@ AnchorLayout:
         FloatLayout:
             Label:
                 text: app.CurrentTime
-                valign: 'middle'
-                halign: 'center'
                 font_size: 46
                 font_name: GaugeFont
                 pos: 20, Dock_y0
@@ -1296,7 +1294,7 @@ AnchorLayout:
                 pos: 963, Dock_y0
                 size_hint: None, None
                 height: 40
-                width: 40
+                width: 80
                 on_press: app.save()
                 on_press: app.ScreenOnOff("OFF")
                 on_release: app.shutdown()
