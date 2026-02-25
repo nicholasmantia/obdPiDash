@@ -311,103 +311,128 @@ AnchorLayout:
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 
+                # Speed
                 Image:
-                    source: "data/gauges/warning/WarningRed.png"
-                    opacity: 1 if app.CoolantTemp > app.CoolantTempWarn else 0
-                    pos: 0, 250
-                    size_hint: None, None
-                    height: 250
-                    width: 250
-
-                Image:
-                    source: "data/gauges/S2K_Coolant.png"
+                    source: "data/gauges/MPH.png"
                     opacity: 1
-                    pos: 0, 350
+                    pos: 42, 59
                     size_hint: None, None
-                    height: 150
-                    width: 250
+                    height: 420
+                    width: 320
+                Image:
+                    source: str(app.Speed_Image)
+                    opacity: 1
+                    pos: 42, 59
+                    size_hint: None, None
+                    height: 420
+                    width: 320
+                    nocache: True
+                    
+                # Coolant Temp
+                Image:
+                    source: "data/gauges/warning/Coolant_red.png"
+                    opacity: 1 if app.CoolantTemp > app.CoolantTempWarn else 0
+                    pos: 45, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 120
+                Image:
+                    source: "data/gauges/Coolant_yellow.png"
+                    opacity: 1 if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else 0
+                    pos: 45, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 120
+                Image:
+                    source: "data/gauges/Coolant.png"
+                    opacity: 1 if app.CoolantTemp <= app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) else 0
+                    pos: 45, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 120
                 Image:
                     source: str(app.CoolantTemp_Image)
                     opacity: 1
-                    pos: 0, 350
+                    pos: 45, 491
                     size_hint: None, None
-                    height: 150
-                    width: 250
+                    height: 85
+                    width: 120
+                    nocache: True
 
+                # Voltage
                 Image:
-                    source: "data/gauges/warning/WarningRed.png"
-                    opacity: 1 if abs(app.STFT) > app.STFTWarn else 0
-                    pos: 275, 250
+                    source: "data/gauges/warning/Voltage_red.png"
+                    opacity: 1 if app.Voltage > 16.25 else 0
+                    pos: 234, 491
                     size_hint: None, None
-                    height: 250
-                    width: 250
-
+                    height: 85
+                    width: 150
                 Image:
-                    source: "data/gauges/S2K_STFT.png"
+                    source: "data/gauges/Voltage_yellow.png"
+                    opacity: 1 if 16.25 - (0.1875 * 16.25) <= app.Voltage <= 16.25 else 0
+                    pos: 234, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 150
+                Image:
+                    source: "data/gauges/Voltage.png"
+                    opacity: 1 if app.Voltage <= 16.25 - (0.1875 * 16.25) else 0
+                    pos: 234, 491
+                    size_hint: None, None
+                    height: 85
+                    width: 150
+                Image:
+                    source: str(app.Voltage_Image)
                     opacity: 1
-                    pos: 275, 350
+                    pos: 234, 491
                     size_hint: None, None
-                    height: 150
-                    width: 250
-                Image:
-                    source: str(app.STFT_Image)
-                    opacity: 1
-                    pos: 275, 350
-                    size_hint: None, None
-                    height: 150
-                    width: 250
+                    height: 85
+                    width: 150
+                    nocache: True
 
-                Image:
-                    source: "data/gauges/S2K_LTFT.png"
-                    opacity: 1
-                    pos: 550, 350
+                Label:
+                    text: str(app.Voltage)
+                    font_size: 63
                     size_hint: None, None
-                    height: 150
-                    width: 250
-                Image:
-                    source: str(app.LTFT_Image)
-                    opacity: 1
-                    pos: 550, 350
-                    size_hint: None, None
-                    height: 150
-                    width: 250
-
-
+                    height: 85
+                    width: 120
+                    text_size: self.width, None
+                    halign: 'right'
+                    valign: 'bottom'
+                    font_hinting: None
+                    pos: 672, 476
+                    font_name: GaugeFont
+                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.Voltage > 16.25 else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * 16.25) <= app.IntakeTemp <= 16.25 else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text:
-                        (str(math.floor(app.CoolantTemp))) + u'\N{DEGREE SIGN}' if app.TempUnit == "F" \
-                        else (str(math.floor((app.CoolantTemp-32)*(5/9)))) + u'\N{DEGREE SIGN}'
-                    font_size: 70
+                        (str(math.floor(app.CoolantTemp))) if app.TempUnit == "F" \
+                        else (str(math.floor((app.CoolantTemp-32)*(5/9))))
+                    font_size: 63
                     size_hint: None, None
-                    height: 150
-                    width: 250
-                    halign: 'center'
-                    valign: 'middle'
+                    height: 85
+                    width: 120
+                    text_size: self.width, None
+                    halign: 'right'
+                    valign: 'bottom'
                     font_hinting: None
-                    pos: 0, 230
+                    pos: 839, 476
                     font_name: GaugeFont
+                    color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
-                    text: (str(app.STFT)) + "%"
-                    font_size: 70
+                    text:
+                        str(math.floor(app.Speed)) if app.SpeedUnit == "MPH" \
+                        else str(math.floor(app.Speed / 0.6213711922))
+                    font_size: 99
                     size_hint: None, None
-                    height: 150
-                    width: 250
-                    halign: 'center'
+                    height: 85
+                    width: 150
+                    text_size: self.width, None
+                    halign: 'right'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 275, 230
+                    pos: 188, 92
                     font_name: GaugeFont
-                Label:
-                    text: (str(app.LTFT)) + "%"
-                    font_size: 70
-                    size_hint: None, None
-                    height: 150
-                    width: 250
-                    halign: 'center'
-                    valign: 'middle'
-                    font_hinting: None
-                    pos: 550, 230
-                    font_name: GaugeFont
+                    color: (232 / 255, 214 / 255, 7 / 255, 1)
 
         Gauge3Screen:
             name: "gauge3"
