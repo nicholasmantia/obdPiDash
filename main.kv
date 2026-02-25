@@ -295,7 +295,21 @@ AnchorLayout:
             name: "gauge2"
             FloatLayout:
                 Image:
-                    source: "data/wallpapers/MaxScreen.png"
+                    source: "data/wallpapers/digital_dash_screen2.png"
+
+                # Current Gear
+                Label:
+                    text: app.currentgear
+                    font_size: 230
+                    size_hint: None, None
+                    height: 217
+                    width: 105
+                    halign: 'center'
+                    valign: 'middle'
+                    font_hinting: None
+                    pos: 413, 50
+                    font_name: GaugeFont
+                    color: (232 / 255, 214 / 255, 7 / 255, 1)
 
                 Image:
                     source: "data/gauges/warning/WarningRed.png"
@@ -399,7 +413,21 @@ AnchorLayout:
             name: "gauge3"
             FloatLayout:
                 Image:
-                    source: "data/wallpapers/MaxScreen.png"
+                    source: "data/wallpapers/digital_dash_screen3.png"
+                    
+                # Current Gear
+                Label:
+                    text: app.currentgear
+                    font_size: 230
+                    size_hint: None, None
+                    height: 217
+                    width: 105
+                    halign: 'center'
+                    valign: 'middle'
+                    font_hinting: None
+                    pos: 413, 50
+                    font_name: GaugeFont
+                    color: (232 / 255, 214 / 255, 7 / 255, 1)
 
                 Image:
                     source: "data/gauges/S2K_Throttle.png"
