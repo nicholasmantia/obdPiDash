@@ -142,63 +142,63 @@ class sys:
         f.close()
 
 class vehicle:
-class gear:
-    # 6L80 ratios
-    qty = 6
-    reverse = 3.06
-    first = 4.03
-    second = 2.36
-    third = 1.53
-    fourth = 1.15
-    fifth = 0.85
-    sixth = 0.67
+    class gear:
+        # 6L80 ratios
+        qty = 6
+        reverse = 3.06
+        first = 4.03
+        second = 2.36
+        third = 1.53
+        fourth = 1.15
+        fifth = 0.85
+        sixth = 0.67
 
-    final = 3.73
-    tirediam = 26.9  # inches
+        final = 3.73
+        tirediam = 26.9  # inches
 
-    current = "P"     # what you display
+        current = "P"     # what you display
 
-def findgear(self, RPM, Speed_mph):
-    # Treat true standstill as Park/Stopped (you cannot really know P vs N from RPM+speed)
-    if Speed_mph < 0.5:
-        vehicle.gear.current = "P"
-        return
-
-    # Avoid detecting gears while converter slip dominates
-    # Tune these thresholds based on your logging
-    if RPM < 900 or Speed_mph < 5:
-        return
-
-    # --- compute effective trans ratio using MPH formula ---
-    # GearRatio = RPM * tire_diam / (MPH * final * 336)
-    trans_ratio = (RPM * vehicle.gear.tirediam) / (Speed_mph * vehicle.gear.final * 336.0)
-
-    # compare to each gear
-    candidates = [
-        ("1", vehicle.gear.first),
-        ("2", vehicle.gear.second),
-        ("3", vehicle.gear.third),
-        ("4", vehicle.gear.fourth),
-        ("5", vehicle.gear.fifth),
-        ("6", vehicle.gear.sixth),
-    ]
-
-    best_label, best_ratio = min(candidates, key=lambda g: abs(g[1] - trans_ratio))
-    best_delta = abs(best_ratio - trans_ratio)
-
-    # --- hysteresis / stickiness ---
-    # Require a meaningfully better match before changing from previous gear
-    # to avoid bouncing between 1/2 etc.
-    prev = vehicle.gear.current
-    if prev in {"1","2","3","4","5","6"} and prev != best_label:
-        prev_ratio = dict(candidates)[prev]
-        prev_delta = abs(prev_ratio - trans_ratio)
-
-        # Only change if the new gear is clearly better
-        if (prev_delta - best_delta) < 0.12:  # tune
+    def findgear(self, RPM, Speed_mph):
+        # Treat true standstill as Park/Stopped (you cannot really know P vs N from RPM+speed)
+        if Speed_mph < 0.5:
+            vehicle.gear.current = "P"
             return
 
-    vehicle.gear.current = best_label
+        # Avoid detecting gears while converter slip dominates
+        # Tune these thresholds based on your logging
+        if RPM < 900 or Speed_mph < 5:
+            return
+
+        # --- compute effective trans ratio using MPH formula ---
+        # GearRatio = RPM * tire_diam / (MPH * final * 336)
+        trans_ratio = (RPM * vehicle.gear.tirediam) / (Speed_mph * vehicle.gear.final * 336.0)
+
+        # compare to each gear
+        candidates = [
+            ("1", vehicle.gear.first),
+            ("2", vehicle.gear.second),
+            ("3", vehicle.gear.third),
+            ("4", vehicle.gear.fourth),
+            ("5", vehicle.gear.fifth),
+            ("6", vehicle.gear.sixth),
+        ]
+
+        best_label, best_ratio = min(candidates, key=lambda g: abs(g[1] - trans_ratio))
+        best_delta = abs(best_ratio - trans_ratio)
+
+        # --- hysteresis / stickiness ---
+        # Require a meaningfully better match before changing from previous gear
+        # to avoid bouncing between 1/2 etc.
+        prev = vehicle.gear.current
+        if prev in {"1","2","3","4","5","6"} and prev != best_label:
+            prev_ratio = dict(candidates)[prev]
+            prev_delta = abs(prev_ratio - trans_ratio)
+
+            # Only change if the new gear is clearly better
+            if (prev_delta - best_delta) < 0.12:  # tune
+                return
+
+        vehicle.gear.current = best_label
 
 class OBD:
     Connected = 0  # connection is off by default - will be turned on in setup thread
