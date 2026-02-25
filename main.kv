@@ -1338,7 +1338,7 @@ AnchorLayout:
                 on_press: app.ScreenOnOff("OFF")
                 on_release: app.shutdown()
 
-            MyButton:
+            Button:
                 id: dock_gauge1
                 opacity: 1
                 pos: 207, Dock_y0
@@ -1363,9 +1363,10 @@ AnchorLayout:
                     text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 22
-                    font_name: ButtonFont
+                    font_size: 12
+                    font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    opacity: 0.5 if root.state == 'down' else 1
 
             Button:
                 id: dock_gauge2
@@ -1389,9 +1390,10 @@ AnchorLayout:
                     text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 22
-                    font_name: ButtonFont
+                    font_size: 12
+                    font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    opacity: 0.5 if root.state == 'down' else 1
 
             Button:
                 id: dock_gauge3
@@ -1415,9 +1417,10 @@ AnchorLayout:
                     text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 22
-                    font_name: ButtonFont
+                    font_size: 12
+                    font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    opacity: 0.5 if root.state == 'down' else 1
 
             Button:
                 id: dock_gauge4
@@ -1441,9 +1444,10 @@ AnchorLayout:
                     text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 22
-                    font_name: ButtonFont
+                    font_size: 12
+                    font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    opacity: 0.5 if root.state == 'down' else 1
 
             Button:
                 id: dock_max
@@ -1466,8 +1470,8 @@ AnchorLayout:
                     text_size: 80, 40
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 19
-                    font_name: ButtonFont
+                    font_size: 12
+                    font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
 
             Button:
