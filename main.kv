@@ -1294,11 +1294,13 @@ AnchorLayout:
 
             Button:
                 id: dock_gauge1
+                background_normal: 'data/elements/Dock/DockPill.png'
+                background_down: 'data/elements/Dock/DockPill_pressed.png'
                 opacity: 1
                 pos: 207, Dock_y0
                 size_hint: None, None
-                height: 40
-                width: 80
+                height: 38
+                width: 53
                 on_press: self.toggle_active()
                 on_press:
                     sm.transition.direction = 'left'

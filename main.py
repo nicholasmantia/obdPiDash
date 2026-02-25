@@ -165,9 +165,6 @@ class vehicle:
         if Speed == 0 and RPM == 0:
             vehicle.gear.current = "P"
             return
-        if Speed > 0 and Speed < 2 and RPM < 1000:
-            vehicle.gear.current = "N"
-            return
         else:
             ratiocalcd = .00595 * RPM * vehicle.gear.tirerad / (vehicle.gear.reduction * Speed)
             firstdelta = abs(vehicle.gear.first - ratiocalcd)
@@ -179,16 +176,8 @@ class vehicle:
             reversedelta = abs(vehicle.gear.reverse - ratiocalcd)
             GearArray = [reversedelta, firstdelta, seconddelta, thirddelta, fourthdelta, fifthdelta, sixthdelta]
             best_delta = min(GearArray)
-            if best_delta > 0.35:
-                vehicle.gear.current = "?"
-                return
-
             smallestGear = GearArray.index(best_delta)
-
-            if smallestGear == 0:
-                vehicle.gear.current = "R"
-            else:
-                vehicle.gear.current = str(smallestGear)
+            vehicle.gear.current = str(smallestGear)
 
 class OBD:
     Connected = 0  # connection is off by default - will be turned on in setup thread
