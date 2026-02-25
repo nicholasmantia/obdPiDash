@@ -30,14 +30,14 @@ AnchorLayout:
                 # Current Gear
                 Label:
                     text: app.currentgear
-                    font_size: 300
+                    font_size: 230
                     size_hint: None, None
-                    height: 280
-                    width: 136
+                    height: 217
+                    width: 105
                     halign: 'center'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 444, 33
+                    pos: 413, 50
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 
@@ -70,23 +70,6 @@ AnchorLayout:
                     size_hint: None, None
                     height: 85
                     width: 120
-                    nocache: True
-
-                # Fuel Level
-                Image:
-                    source: "data/gauges/FuelLevel.png"
-                    opacity: 1
-                    pos: 425, 290
-                    size_hint: None, None
-                    height: 251
-                    width: 178
-                Image:
-                    source: str(app.FuelLevel_Image)
-                    opacity: 1
-                    pos: 425, 290
-                    size_hint: None, None
-                    height: 251
-                    width: 178
                     nocache: True
 
                 # Speed

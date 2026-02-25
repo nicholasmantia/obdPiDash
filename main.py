@@ -336,8 +336,8 @@ class OBD:
             ThrottlePos_max = 100
             Load_max = 100
             TimingAdv_max = 50
-            RPM_max = 6500
-            Speed_max = 150
+            RPM_max = 6000
+            Speed_max = 125
             FuelLevel_max = 100
 
             # Find value per segment rounded to 2 decimal places
@@ -851,7 +851,7 @@ class MainApp(App):
             self.TimingAdv = OBD.dev.Generic / 2
 
 
-        # S2K Bar Image Selection
+        # Bar Image Selection
         if OBD.enable.Speed and 0 <= int(round(self.Speed/OBD.gauge.persegment.Speed)) <= 32:
             self.Speed_Image = str('data/gauges/mph_normal/MPH_'+(str(int(round(self.Speed/OBD.gauge.persegment.Speed))))+'.png')
         if OBD.enable.RPM and 0 <= int(round(self.RPM/OBD.gauge.persegment.RPM)) <= 32:
