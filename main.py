@@ -143,62 +143,201 @@ class sys:
 
 class vehicle:
     class gear:
-        # 6L80 ratios
+        """
+        6L80 + 3.73 + 26.9" tire gear estimator from RPM + vehicle speed.
+
+        Notes / expectations:
+        - OBD-II generally does NOT give you real PRNDL on an E38/T46 via standard PIDs.
+        So P/N/R here are best-effort heuristics + ratio math.
+        - Torque converter slip / unlock on decel will skew ratio -> downshift lag.
+        This class uses:
+            * asymmetric smoothing (faster response when ratio is rising = downshift direction)
+            * asymmetric hysteresis (downshift faster than upshift)
+            * hold times to prevent chatter
+
+        Tune points are at the top: margins, holds, thresholds.
+        """
+
+        # ----------------------------
+        # Drivetrain constants
+        # ----------------------------
         qty = 6
+        # 6L80 ratios
         reverse = 3.06
-        first = 4.03
-        second = 2.36
-        third = 1.53
-        fourth = 1.15
-        fifth = 0.85
-        sixth = 0.67
+        first   = 4.03
+        second  = 2.36
+        third   = 1.53
+        fourth  = 1.15
+        fifth   = 0.85
+        sixth   = 0.67
 
         final = 3.73
         tirediam = 26.9  # inches
 
-        current = "P"     # what you display
+        # ----------------------------
+        # State
+        # ----------------------------
+        current = "P"          # "P", "N", "R", "1".."6", "?"
+        _last_numeric = 1      # last numeric gear 1..6
+        _ratio_filt = None
+        _last_update_t = 0.0
+        _last_shift_t = 0.0
 
-    def findgear(self, RPM, Speed_mph):
-        # Treat true standstill as Park/Stopped (you cannot really know P vs N from RPM+speed)
-        if Speed_mph < 0.5:
-            vehicle.gear.current = "P"
-            return
+        # ----------------------------
+        # Tunables
+        # ----------------------------
+        # Park/Neutral heuristics
+        PARK_SPEED_MPH = 0.3
+        PARK_RPM_MAX   = 120      # if you idle higher than this, increase (or disable Park heuristic)
+        NEUTRAL_SPEED_MAX = 2.0
+        NEUTRAL_RPM_MAX   = 1000
 
-        # Avoid detecting gears while converter slip dominates
-        # Tune these thresholds based on your logging
-        if RPM < 900 or Speed_mph < 5:
-            return
+        # minimum conditions to even attempt ratio-based gear
+        MIN_SPEED_MPH = 5.0
+        MIN_RPM       = 900
 
-        # --- compute effective trans ratio using MPH formula ---
-        # GearRatio = RPM * tire_diam / (MPH * final * 336)
-        trans_ratio = (RPM * vehicle.gear.tirediam) / (Speed_mph * vehicle.gear.final * 336.0)
+        # hysteresis margins around boundaries
+        UP_MARGIN   = 0.12   # upshift = conservative
+        DOWN_MARGIN = 0.05   # downshift = aggressive
 
-        # compare to each gear
-        candidates = [
-            ("1", vehicle.gear.first),
-            ("2", vehicle.gear.second),
-            ("3", vehicle.gear.third),
-            ("4", vehicle.gear.fourth),
-            ("5", vehicle.gear.fifth),
-            ("6", vehicle.gear.sixth),
-        ]
+        # ratio smoothing: faster when ratio rising (downshift direction)
+        ALPHA_UP   = 0.35
+        ALPHA_DOWN = 0.80
 
-        best_label, best_ratio = min(candidates, key=lambda g: abs(g[1] - trans_ratio))
-        best_delta = abs(best_ratio - trans_ratio)
+        # anti-chatter timing
+        HOLD_UP_SECONDS   = 0.25
+        HOLD_DOWN_SECONDS = 0.10
 
-        # --- hysteresis / stickiness ---
-        # Require a meaningfully better match before changing from previous gear
-        # to avoid bouncing between 1/2 etc.
-        prev = vehicle.gear.current
-        if prev in {"1","2","3","4","5","6"} and prev != best_label:
-            prev_ratio = dict(candidates)[prev]
-            prev_delta = abs(prev_ratio - trans_ratio)
+        # if nothing fits well, show unknown
+        MAX_ACCEPTABLE_ERROR = 0.35
 
-            # Only change if the new gear is clearly better
-            if (prev_delta - best_delta) < 0.12:  # tune
-                return
+        @classmethod
+        def _calc_trans_ratio(cls, rpm: float, mph: float) -> float:
+            """
+            Calculate estimated transmission gear ratio from RPM, MPH, tire diameter, and axle ratio.
 
-        vehicle.gear.current = best_label
+            Formula (common hot-rod/gear calc):
+            mph = (rpm * tire_diameter) / (gear_ratio * axle_ratio * 336)
+            gear_ratio = (rpm * tire_diameter) / (mph * axle_ratio * 336)
+            """
+            return (rpm * cls.tirediam) / (mph * cls.final * 336.0)
+
+        @classmethod
+        def _ratios(cls):
+            return {
+                1: cls.first,
+                2: cls.second,
+                3: cls.third,
+                4: cls.fourth,
+                5: cls.fifth,
+                6: cls.sixth,
+            }
+
+        @classmethod
+        def update(cls, rpm: float, mph: float, now: float = None) -> str:
+            """
+            Update gear estimate. Call this in your update loop.
+            Returns the new cls.current string.
+            """
+            if now is None:
+                import time
+                now = time.time()
+
+            # ----- P/N heuristics (OBD-only guess; not real PRNDL) -----
+            # Park: basically stopped and RPM basically 0 (or whatever your setup reports at key-on).
+            # If your RPM at idle is ~650, PARK_RPM_MAX must be increased or this will never show P.
+            if mph <= cls.PARK_SPEED_MPH and rpm <= cls.PARK_RPM_MAX:
+                cls.current = "P"
+                cls._ratio_filt = None
+                cls._last_update_t = now
+                return cls.current
+
+            # Neutral: slow roll / near stopped AND low rpm (not pulling a gear ratio)
+            if (mph > 0) and (mph <= cls.NEUTRAL_SPEED_MAX) and (rpm <= cls.NEUTRAL_RPM_MAX):
+                cls.current = "N"
+                cls._ratio_filt = None
+                cls._last_update_t = now
+                return cls.current
+
+            # If we don't have enough signal to be confident, keep last known numeric gear (don’t jump)
+            if mph < cls.MIN_SPEED_MPH or rpm < cls.MIN_RPM:
+                # don’t overwrite P/N/R with numeric, but if we were numeric, keep it
+                cls._last_update_t = now
+                return cls.current
+
+            # ----- compute raw ratio -----
+            raw_ratio = cls._calc_trans_ratio(rpm, mph)
+
+            # ----- asymmetric smoothing (downshifts respond faster) -----
+            if cls._ratio_filt is None:
+                cls._ratio_filt = raw_ratio
+            else:
+                alpha = cls.ALPHA_DOWN if raw_ratio > cls._ratio_filt else cls.ALPHA_UP
+                cls._ratio_filt = (alpha * raw_ratio) + ((1.0 - alpha) * cls._ratio_filt)
+
+            ratio = cls._ratio_filt
+            ratios = cls._ratios()
+
+            # ----- reverse check (only if it fits extremely well) -----
+            # With only RPM+MPH, reverse is hard; MPH is usually unsigned.
+            # If you do have signed speed elsewhere, use that. Otherwise:
+            rev_err = abs(cls.reverse - ratio)
+            if rev_err < 0.12 and (now - cls._last_shift_t) > cls.HOLD_DOWN_SECONDS:
+                cls.current = "R"
+                cls._last_shift_t = now
+                cls._last_update_t = now
+                return cls.current
+
+            # ----- choose / track current numeric gear -----
+            # if current is numeric, use it; else fall back to last numeric
+            if isinstance(cls.current, str) and cls.current.isdigit():
+                cur = int(cls.current)
+            else:
+                cur = int(cls._last_numeric)
+
+            cur = max(1, min(6, cur))
+
+            # boundaries between adjacent gears (midpoints)
+            # upshift when ratio drops below boundary - UP_MARGIN
+            # downshift when ratio rises above boundary + DOWN_MARGIN
+            did_shift = False
+
+            # Downshift first (so decel catches quicker)
+            if cur > 1:
+                down_boundary = (ratios[cur] + ratios[cur - 1]) / 2.0
+                if ratio > (down_boundary + cls.DOWN_MARGIN) and (now - cls._last_shift_t) > cls.HOLD_DOWN_SECONDS:
+                    cur -= 1
+                    cls._last_shift_t = now
+                    did_shift = True
+
+            # Upshift
+            if not did_shift and cur < 6:
+                up_boundary = (ratios[cur] + ratios[cur + 1]) / 2.0
+                if ratio < (up_boundary - cls.UP_MARGIN) and (now - cls._last_shift_t) > cls.HOLD_UP_SECONDS:
+                    cur += 1
+                    cls._last_shift_t = now
+                    did_shift = True
+
+            # ----- sanity check: if ratio doesn't match any gear well, show ? -----
+            best_gear = min(ratios, key=lambda g: abs(ratios[g] - ratio))
+            best_err = abs(ratios[best_gear] - ratio)
+
+            # If we shifted, trust cur unless it's wildly wrong.
+            # If we didn't shift, keep cur but allow snap-to-best when it's clearly better.
+            # if best_err > cls.MAX_ACCEPTABLE_ERROR:
+            #     cls.current = "?"
+            #     cls._last_update_t = now
+            #     return cls.current
+
+            # If cur is far from best, snap to best (helps when you start logging mid-drive)
+            cur_err = abs(ratios[cur] - ratio)
+            if cur_err > (best_err + 0.20):
+                cur = best_gear
+
+            cls._last_numeric = cur
+            cls.current = str(cur)
+            cls._last_update_t = now
+            return cls.current
 
 class OBD:
     Connected = 0  # connection is off by default - will be turned on in setup thread

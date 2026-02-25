@@ -274,7 +274,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 187, 71
+                    pos: 187, 103
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
                 Label:
@@ -287,7 +287,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 778, 71
+                    pos: 778, 103
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 
@@ -1301,7 +1301,6 @@ AnchorLayout:
                 size_hint: None, None
                 height: 38
                 width: 53
-                on_press: self.toggle_active()
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge1'
@@ -1319,9 +1318,10 @@ AnchorLayout:
                     text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 21
+                    font_size: 38
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    color: (232/255, 214/255, 7/255, 1)
 
             Button:
                 id: dock_gauge2
@@ -1345,9 +1345,10 @@ AnchorLayout:
                     text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 21
+                    font_size: 38
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    color: (232/255, 214/255, 7/255, 1)
 
             Button:
                 id: dock_gauge3
@@ -1371,9 +1372,10 @@ AnchorLayout:
                     text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 21
+                    font_size: 38
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    color: (232/255, 214/255, 7/255, 1)
 
             Button:
                 id: dock_gauge4
@@ -1397,9 +1399,10 @@ AnchorLayout:
                     text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 21
+                    font_size: 38
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    color: (232/255, 214/255, 7/255, 1)
 
             Button:
                 id: dock_max
@@ -1422,9 +1425,10 @@ AnchorLayout:
                     text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 12
+                    font_size: 38
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
+                    color: (232/255, 214/255, 7/255, 1)
 
             Button:
                 id: dock_CEL
