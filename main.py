@@ -857,7 +857,7 @@ class MainApp(App):
                 print("Gear Calculation Failed")
 
     def updateClock(self, *args):
-        self.CurrentTime = time.strftime("%I:%M:%S %p")
+        self.CurrentTime = time.strftime("%I:%M %p")
         
     def updateOBDdata(self, *args):
         if OBD.Connected and developermode == 0:
