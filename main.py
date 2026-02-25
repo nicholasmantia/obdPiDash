@@ -142,42 +142,63 @@ class sys:
         f.close()
 
 class vehicle:
-    class gear:
-        # L76 + 6L80
-        qty = 6
-        reverse = 3.06
-        primary = 1.00  # no "primary" reduction like a motorcycle; keep 1.0
-        first = 4.03
-        second = 2.36
-        third = 1.53
-        fourth = 1.15
-        fifth = 0.85
-        sixth = 0.67
+class gear:
+    # 6L80 ratios
+    qty = 6
+    reverse = 3.06
+    first = 4.03
+    second = 2.36
+    third = 1.53
+    fourth = 1.15
+    fifth = 0.85
+    sixth = 0.67
 
-        final = 3.73        # <-- CHANGE THIS to your rear axle ratio
-        reduction = final * primary
+    final = 3.73
+    tirediam = 26.9  # inches
 
-        tirediam = 26.9    # <-- CHANGE THIS to your actual tire diameter in inches
-        tirerad = tirediam / 2
-        current = "P"
+    current = "P"     # what you display
 
-    def findgear (self, RPM, Speed):
-        if Speed == 0 and RPM == 0:
-            vehicle.gear.current = "P"
+def findgear(self, RPM, Speed_mph):
+    # Treat true standstill as Park/Stopped (you cannot really know P vs N from RPM+speed)
+    if Speed_mph < 0.5:
+        vehicle.gear.current = "P"
+        return
+
+    # Avoid detecting gears while converter slip dominates
+    # Tune these thresholds based on your logging
+    if RPM < 900 or Speed_mph < 5:
+        return
+
+    # --- compute effective trans ratio using MPH formula ---
+    # GearRatio = RPM * tire_diam / (MPH * final * 336)
+    trans_ratio = (RPM * vehicle.gear.tirediam) / (Speed_mph * vehicle.gear.final * 336.0)
+
+    # compare to each gear
+    candidates = [
+        ("1", vehicle.gear.first),
+        ("2", vehicle.gear.second),
+        ("3", vehicle.gear.third),
+        ("4", vehicle.gear.fourth),
+        ("5", vehicle.gear.fifth),
+        ("6", vehicle.gear.sixth),
+    ]
+
+    best_label, best_ratio = min(candidates, key=lambda g: abs(g[1] - trans_ratio))
+    best_delta = abs(best_ratio - trans_ratio)
+
+    # --- hysteresis / stickiness ---
+    # Require a meaningfully better match before changing from previous gear
+    # to avoid bouncing between 1/2 etc.
+    prev = vehicle.gear.current
+    if prev in {"1","2","3","4","5","6"} and prev != best_label:
+        prev_ratio = dict(candidates)[prev]
+        prev_delta = abs(prev_ratio - trans_ratio)
+
+        # Only change if the new gear is clearly better
+        if (prev_delta - best_delta) < 0.12:  # tune
             return
-        else:
-            ratiocalcd = .00595 * RPM * vehicle.gear.tirerad / (vehicle.gear.reduction * Speed)
-            firstdelta = abs(vehicle.gear.first - ratiocalcd)
-            seconddelta = abs(vehicle.gear.second - ratiocalcd)
-            thirddelta = abs(vehicle.gear.third - ratiocalcd)
-            fourthdelta = abs(vehicle.gear.fourth - ratiocalcd)
-            fifthdelta = abs(vehicle.gear.fifth - ratiocalcd)
-            sixthdelta = abs(vehicle.gear.sixth - ratiocalcd)
-            reversedelta = abs(vehicle.gear.reverse - ratiocalcd)
-            GearArray = [reversedelta, firstdelta, seconddelta, thirddelta, fourthdelta, fifthdelta, sixthdelta]
-            best_delta = min(GearArray)
-            smallestGear = GearArray.index(best_delta)
-            vehicle.gear.current = str(smallestGear)
+
+    vehicle.gear.current = best_label
 
 class OBD:
     Connected = 0  # connection is off by default - will be turned on in setup thread
