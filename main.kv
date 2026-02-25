@@ -37,7 +37,7 @@ AnchorLayout:
                     halign: 'center'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 462, 113
+                    pos: 462, 63
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 
@@ -45,21 +45,21 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/Coolant_red.png"
                     opacity: 1 if app.CoolantTemp > app.CoolantTempWarn else 0
-                    pos: 849, 520
+                    pos: 849, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: "data/gauges/Coolant_yellow.png"
                     opacity: 1 if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else 0
-                    pos: 849, 520
+                    pos: 849, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: "data/gauges/Coolant.png"
                     opacity: 1 if app.CoolantTemp <= app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) else 0
-                    pos: 849, 520
+                    pos: 849, 476
                     size_hint: None, None
                     height: 85
                     width: 158
@@ -110,21 +110,21 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/IntakeTemp_red.png"
                     opacity: 1 if app.IntakeTemp > app.IntakeTempWarn else 0
-                    pos: 234, 520
+                    pos: 234, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: "data/gauges/IntakeTemp_yellow.png"
                     opacity: 1 if app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else 0
-                    pos: 234, 520
+                    pos: 234, 476
                     size_hint: None, None
                     height: 85
                     width: 158
                 Image:
                     source: "data/gauges/IntakeTemp.png"
                     opacity: 1 if app.IntakeTemp <= app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) else 0
-                    pos: 234, 520
+                    pos: 234, 476
                     size_hint: None, None
                     height: 85
                     width: 158
@@ -150,21 +150,21 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/Voltage_red.png"
                     opacity: 1 if app.Voltage > 16.25 else 0
-                    pos: 657, 520
+                    pos: 657, 476
                     size_hint: None, None
                     height: 85
                     width: 150
                 Image:
                     source: "data/gauges/Voltage_yellow.png"
                     opacity: 1 if 16.25 - (0.1875 * 16.25) <= app.Voltage <= 16.25 else 0
-                    pos: 657, 520
+                    pos: 657, 476
                     size_hint: None, None
                     height: 85
                     width: 150
                 Image:
                     source: "data/gauges/Voltage.png"
                     opacity: 1 if app.Voltage <= 16.25 - (0.1875 * 16.25) else 0
-                    pos: 657, 520
+                    pos: 657, 476
                     size_hint: None, None
                     height: 85
                     width: 150
@@ -180,21 +180,21 @@ AnchorLayout:
                 Image:
                     source: "data/gauges/warning/LTFT_red.png"
                     opacity: 1 if app.LTFT > app.LTFTWarn else 0
-                    pos: 45, 520
+                    pos: 45, 476
                     size_hint: None, None
                     height: 85
                     width: 145
                 Image:
                     source: "data/gauges/LTFT_yellow.png"
                     opacity: 1 if app.LTFTWarn - (0.1875 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else 0
-                    pos: 45, 520
+                    pos: 45, 476
                     size_hint: None, None
                     height: 85
                     width: 145
                 Image:
                     source: "data/gauges/LTFT.png"
                     opacity: 1 if app.LTFT <= app.LTFTWarn - (0.1875 * app.LTFTWarn) else 0
-                    pos: 45, 520
+                    pos: 45, 476
                     size_hint: None, None
                     height: 85
                     width: 145
@@ -274,7 +274,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 188, 92
+                    pos: 187, 71
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
                 Label:
@@ -287,7 +287,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 777, 92
+                    pos: 778, 71
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 
@@ -1314,10 +1314,10 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "1"
-                    text_size: 80, 40
+                    text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 12
+                    font_size: 21
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
 
@@ -1328,8 +1328,8 @@ AnchorLayout:
                 opacity: 1
                 pos: 312, Dock_y0
                 size_hint: None, None
-                height: 40
-                width: 80
+                height: 38
+                width: 53
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge2'
@@ -1340,10 +1340,10 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "2"
-                    text_size: 80, 40
+                    text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 12
+                    font_size: 21
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
 
@@ -1354,8 +1354,8 @@ AnchorLayout:
                 opacity: 1
                 pos: 418, Dock_y0
                 size_hint: None, None
-                height: 40
-                width: 80
+                height: 38
+                width: 53
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge3'
@@ -1366,10 +1366,10 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "3"
-                    text_size: 80, 40
+                    text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 12
+                    font_size: 21
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
 
@@ -1380,8 +1380,8 @@ AnchorLayout:
                 opacity: 1
                 pos: 523, Dock_y0
                 size_hint: None, None
-                height: 40
-                width: 80
+                height: 38
+                width: 53
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'gauge4'
@@ -1392,10 +1392,10 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "4"
-                    text_size: 80, 40
+                    text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
-                    font_size: 12
+                    font_size: 21
                     font_name: GaugeFont
                     pos: self.parent.center_x - 50, self.parent.center_y - 50
 
@@ -1406,8 +1406,8 @@ AnchorLayout:
                 opacity: 1
                 pos: 629, Dock_y0
                 size_hint: None, None
-                height: 40
-                width: 80
+                height: 38
+                width: 53
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'max'
@@ -1417,7 +1417,7 @@ AnchorLayout:
                     app.save()
                 Label:
                     text: "MAX"
-                    text_size: 80, 40
+                    text_size: 53, 38
                     valign: 'middle'
                     halign: 'center'
                     font_size: 12
@@ -1431,8 +1431,8 @@ AnchorLayout:
                 opacity: 1
                 pos: 735, Dock_y0
                 size_hint: None, None
-                height: 40
-                width: 80
+                height: 38
+                width: 53
                 on_press:
                     sm.transition.direction = 'left'
                     sm.current = 'DTC'
