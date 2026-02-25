@@ -143,42 +143,52 @@ class sys:
 
 class vehicle:
     class gear:
-        # Info for AP1 S2000
+        # L76 + 6L80
         qty = 6
-        reverse = 2.800
-        primary = 1.160
-        first = 3.133
-        second = 2.045
-        third = 1.481
-        fourth = 1.161
-        fifth = 0.970
-        sixth = 0.810
-        final = 4.10
+        reverse = 3.06
+        primary = 1.00  # no "primary" reduction like a motorcycle; keep 1.0
+        first = 4.03
+        second = 2.36
+        third = 1.53
+        fourth = 1.15
+        fifth = 0.85
+        sixth = 0.67
+
+        final = 3.73        # <-- CHANGE THIS to your rear axle ratio
         reduction = final * primary
-        tirediam = 24.7  # in inches
-        tirerad = tirediam/2
-        current = "N"
+
+        tirediam = 26.9    # <-- CHANGE THIS to your actual tire diameter in inches
+        tirerad = tirediam / 2
+        current = "P"
 
     def findgear (self, RPM, Speed):
-        if Speed == 0 or RPM < 1500:
+        if Speed == 0 and RPM == 0:
+            vehicle.gear.current = "P"
+            return
+        if Speed > 0 and Speed < 2 and RPM < 1000:
             vehicle.gear.current = "N"
             return
         else:
             ratiocalcd = .00595 * RPM * vehicle.gear.tirerad / (vehicle.gear.reduction * Speed)
-        firstdelta = abs(vehicle.gear.first - ratiocalcd)
-        seconddelta = abs(vehicle.gear.second - ratiocalcd)
-        thirddelta = abs(vehicle.gear.third - ratiocalcd)
-        fourthdelta = abs(vehicle.gear.fourth - ratiocalcd)
-        fifthdelta = abs(vehicle.gear.fifth - ratiocalcd)
-        sixthdelta = abs(vehicle.gear.sixth - ratiocalcd)
-        reversedelta = abs(vehicle.gear.reverse - ratiocalcd)
-        GearArray = [firstdelta, seconddelta, thirddelta, fourthdelta, fifthdelta, sixthdelta]  # remove reverse for now
-        smallestDelta = min(GearArray)
-        smallestGear = GearArray.index(smallestDelta)
-        if smallestGear == 6:
-            vehicle.gear.current = "R"
-        else:
-            vehicle.gear.current = str(smallestGear + 1)
+            firstdelta = abs(vehicle.gear.first - ratiocalcd)
+            seconddelta = abs(vehicle.gear.second - ratiocalcd)
+            thirddelta = abs(vehicle.gear.third - ratiocalcd)
+            fourthdelta = abs(vehicle.gear.fourth - ratiocalcd)
+            fifthdelta = abs(vehicle.gear.fifth - ratiocalcd)
+            sixthdelta = abs(vehicle.gear.sixth - ratiocalcd)
+            reversedelta = abs(vehicle.gear.reverse - ratiocalcd)
+            GearArray = [reversedelta, firstdelta, seconddelta, thirddelta, fourthdelta, fifthdelta, sixthdelta]
+            best_delta = min(GearArray)
+            if best_delta > 0.35:
+                vehicle.gear.current = "?"
+                return
+
+            smallestGear = GearArray.index(best_delta)
+
+            if smallestGear == 0:
+                vehicle.gear.current = "R"
+            else:
+                vehicle.gear.current = str(smallestGear)
 
 class OBD:
     Connected = 0  # connection is off by default - will be turned on in setup thread
@@ -320,13 +330,13 @@ class OBD:
             # Max values for each S2K Bar Gauge
             CoolantTemp_max = 300
             IntakeTemp_max = 200
-            Voltage_max = 20
+            Voltage_max = 16
             STFT_max = 50  # value + 25 (make gauge 0->50)
             LTFT_max = 50  # value + 25 (make gauge 0->50)
             ThrottlePos_max = 100
             Load_max = 100
             TimingAdv_max = 50
-            RPM_max = 9500
+            RPM_max = 6500
             Speed_max = 150
             FuelLevel_max = 100
 
@@ -348,16 +358,16 @@ class OBD:
     def OBD_setup_thread(self):
         global OBDEnabled
         try:
-            # os.system('sudo rfcomm bind /dev/rfcomm1 00:1D:A5:16:3E:ED')  # HART Blue Adapter
-            os.system('sudo rfcomm bind /dev/rfcomm1 00:1D:A5:03:43:DF')  # S2K Blue Adapter
-            # os.system('sudo rfcomm bind /dev/rfcomm1 00:17:E9:60:7C:BC')  # Hondata
-            # os.system('sudo rfcomm bind /dev/rfcomm1 00:04:3E:4B:07:66')  # Green LXLink
-            print("RF Bind Complete")
-        except:
-            print("Failed to RF Bind - Device may already be connected?")
-        time.sleep(2)
-        try:
-            OBD.connection = obd.OBD("/dev/ttyUSB0", fast=False)  # auto-connects to USB or RF port
+            port = os.getenv("OBD_PORT", "/dev/ttyUSB0")
+
+            deadline = time.time() + 10
+            while time.time() < deadline and not os.path.exists(port):
+                time.sleep(0.2)
+            if not os.path.exists(port):
+                raise Exception(f"OBD port not found: {port}")
+
+            OBD.connection = obd.OBD(port, fast=False)
+
             OBD.cmd_RPM = obd.commands.RPM
             OBD.cmd_Speed = obd.commands.SPEED
             OBD.cmd_CoolantTemp = obd.commands.COOLANT_TEMP
@@ -376,19 +386,20 @@ class OBD:
             OBD.cmd_Voltage = obd.commands.ELM_VOLTAGE
             OBD.cmd_ReadDTC = obd.commands.GET_DTC
             OBD.cmd_ClearDTC = obd.commands.CLEAR_DTC
+
             OBD.Connected = 1
-            print("OBD System is Ready, Starting Update Thread")
-        except:
-            print("Error setting OBD vars. OBD is now disabled.")
+            print(f"OBD System is Ready on {port}, Starting Update Thread")
+        except Exception as e:
+            print(f"Error setting OBD vars: {e}. OBD is now disabled.")
             try:
-                MainApp.show_warning(self,"Error setting OBD vars", "OBD is now disabled")
+                MainApp.show_warning(self, "Error setting OBD vars", str(e))
             except:
-                print("Dialog could not open, no window?")
+                pass
             OBDEnabled = 0
 
     def OBD_update_thread(self):
-        while OBD.Connected == 0: # wait here while OBD system initializes
-            pass
+        while OBD.Connected == 0:
+            time.sleep(0.05)
         while OBDEnabled and OBD.Connected:
             if OBD.enable.Speed:
                 try:
@@ -603,7 +614,7 @@ class DTCScreen(Screen):
 class MainApp(App):
     def build(self):
         Clock.schedule_interval(self.updatevariables, .1)
-        Clock.schedule_interval(self.updateOBDdata, .01)
+        Clock.schedule_interval(self.updateOBDdata, .05)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
     theme_cls = ThemeManager()
