@@ -171,7 +171,7 @@ AnchorLayout:
                 Image:
                     source: str(app.Voltage_Image)
                     opacity: 1
-                    pos: 646, 520
+                    pos: 648, 520
                     size_hint: None, None
                     height: 85
                     width: 150
@@ -218,7 +218,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 780, 476
+                    pos: 798, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -233,7 +233,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 149, 476
+                    pos: 179, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.IntakeTemp > app.IntakeTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -246,7 +246,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 606, 476
+                    pos: 620, 476
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.Voltage > 16.25 else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * 16.25) <= app.IntakeTemp <= 16.25 else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -1272,7 +1272,7 @@ AnchorLayout:
                 size_hint: None, None
                 font_size: 46
                 font_name: GaugeFont
-                pos: 60, Dock_y0 - 60
+                pos: 60, Dock_y0
                 color: (232/255, 214/255, 7/255, 1)
 
             Button:
