@@ -173,8 +173,8 @@ class vehicle:
             fourthdelta = abs(vehicle.gear.fourth - ratiocalcd)
             fifthdelta = abs(vehicle.gear.fifth - ratiocalcd)
             sixthdelta = abs(vehicle.gear.sixth - ratiocalcd)
-            reversedelta = abs(vehicle.gear.reverse - ratiocalcd)
-            GearArray = [reversedelta, firstdelta, seconddelta, thirddelta, fourthdelta, fifthdelta, sixthdelta]
+            # reversedelta = abs(vehicle.gear.reverse - ratiocalcd)
+            GearArray = [firstdelta, seconddelta, thirddelta, fourthdelta, fifthdelta, sixthdelta]
             best_delta = min(GearArray)
             smallestGear = GearArray.index(best_delta)
             vehicle.gear.current = str(smallestGear)
