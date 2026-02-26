@@ -146,7 +146,7 @@ class vehicle:
         # L76 + 6L80
         qty = 6
         reverse = 3.06
-        primary = 1.00  # no "primary" reduction like a motorcycle; keep 1.0
+        primary = 1.00
         first = 4.03
         second = 2.36
         third = 1.53
@@ -154,10 +154,10 @@ class vehicle:
         fifth = 0.85
         sixth = 0.67
 
-        final = 3.73        # <-- CHANGE THIS to your rear axle ratio
+        final = 3.73
         reduction = final * primary
 
-        tirediam = 26.9    # <-- CHANGE THIS to your actual tire diameter in inches
+        tirediam = 26.9
         tirerad = tirediam / 2
         current = "P"
 
@@ -178,7 +178,7 @@ class vehicle:
             best_delta = min(GearArray)
             smallestGear = GearArray.index(best_delta)
             vehicle.gear.current = str(smallestGear)
-            
+
 class OBD:
     Connected = 0  # connection is off by default - will be turned on in setup thread
     RPM_max = 0    # init all values to 0
