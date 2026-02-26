@@ -143,103 +143,41 @@ class sys:
 
 class vehicle:
     class gear:
-        # 6L80 ratios
-        RATIOS = {
-            "R": 3.06,
-            "1": 4.03,
-            "2": 2.36,
-            "3": 1.53,
-            "4": 1.15,
-            "5": 0.85,
-            "6": 0.67,
-        }
+        # L76 + 6L80
+        qty = 6
+        reverse = 3.06
+        primary = 1.00
+        first = 4.03
+        second = 2.36
+        third = 1.53
+        fourth = 1.15
+        fifth = 0.85
+        sixth = 0.67
 
         final = 3.73
-        tirediam_in = 26.9
+        reduction = final * primary
 
+        tirediam = 26.9
+        tirerad = tirediam / 2
         current = "P"
-        _last_gear = "P"
-        _last_change_ts = 0.0
 
-        # Tuning knobs (keep simple)
-        MIN_SPEED_MPH = 3.0          # below this, don't trust ratio
-        MIN_RPM = 600                # below this, treat as not-in-gear
-        HOLD_SEC_UPSHIFT = 0.25      # require a tiny hold before accepting upshift
-        HOLD_SEC_DOWNSHIFT = 0.05    # allow downshift much faster
-        HYST_UP = 0.10               # upshift needs to be clearly closer
-        HYST_DOWN = 0.03             # downshift can be less strict
-
-        @classmethod
-        def _estimate_ratio(cls, rpm: float, mph: float) -> float:
-            # gear ≈ (rpm * pi * tire_diam) / (mph * 1056 * final)
-            return (rpm * math.pi * cls.tirediam_in) / (mph * 1056.0 * cls.final)
-
-        @classmethod
-        def _nearest_gear(cls, ratio_est: float) -> str:
-            # Pick closest forward gear only (you can add reverse logic if you have a signal)
-            best_g = "1"
-            best_d = float("inf")
-            for g in ("1", "2", "3", "4", "5", "6"):
-                d = abs(cls.RATIOS[g] - ratio_est)
-                if d < best_d:
-                    best_d = d
-                    best_g = g
-            return best_g
-
-        @classmethod
-        def findgear(cls, rpm: float, speed_mph: float):
-            # Park-ish / stopped heuristics
-            if speed_mph < 0.5 and rpm < cls.MIN_RPM:
-                cls.current = "P"
-                cls._last_gear = cls.current
-                return
-
-            # If we're basically stopped but engine running, show N (optional)
-            if speed_mph < cls.MIN_SPEED_MPH:
-                cls.current = "N"
-                cls._last_gear = cls.current
-                return
-
-            # Estimate ratio safely
-            try:
-                ratio_est = cls._estimate_ratio(rpm, speed_mph)
-            except Exception:
-                # Never show "?" – just keep last known
-                cls.current = cls._last_gear
-                return
-
-            candidate = cls._nearest_gear(ratio_est)
-
-            # Apply minimal hysteresis using last gear (this is what fixes “slow downshift catch-up”)
-            now = time.time()
-            last = cls._last_gear
-
-            # If last wasn't a forward gear, accept immediately
-            if last not in ("1","2","3","4","5","6"):
-                cls.current = candidate
-                cls._last_gear = cls.current
-                cls._last_change_ts = now
-                return
-
-            # Compare "how much closer" candidate is than staying in last gear
-            d_last = abs(cls.RATIOS[last] - ratio_est)
-            d_cand = abs(cls.RATIOS[candidate] - ratio_est)
-
-            is_upshift = int(candidate) > int(last)
-            hold = cls.HOLD_SEC_UPSHIFT if is_upshift else cls.HOLD_SEC_DOWNSHIFT
-            hyst = cls.HYST_UP if is_upshift else cls.HYST_DOWN
-
-            if (now - cls._last_change_ts) < hold:
-                cls.current = last
-                return
-
-            # Only switch if candidate is meaningfully closer than last
-            if d_cand + hyst < d_last:
-                cls.current = candidate
-                cls._last_gear = cls.current
-                cls._last_change_ts = now
-            else:
-                cls.current = last
+    def findgear (self, RPM, Speed):
+        if Speed == 0 and RPM == 0:
+            vehicle.gear.current = "P"
+            return
+        else:
+            ratiocalcd = .00595 * RPM * vehicle.gear.tirerad / (vehicle.gear.reduction * Speed)
+            firstdelta = abs(vehicle.gear.first - ratiocalcd)
+            seconddelta = abs(vehicle.gear.second - ratiocalcd)
+            thirddelta = abs(vehicle.gear.third - ratiocalcd)
+            fourthdelta = abs(vehicle.gear.fourth - ratiocalcd)
+            fifthdelta = abs(vehicle.gear.fifth - ratiocalcd)
+            sixthdelta = abs(vehicle.gear.sixth - ratiocalcd)
+            # reversedelta = abs(vehicle.gear.reverse - ratiocalcd)
+            GearArray = [firstdelta, seconddelta, thirddelta, fourthdelta, fifthdelta, sixthdelta]
+            best_delta = min(GearArray)
+            smallestGear = GearArray.index(best_delta)
+            vehicle.gear.current = str(smallestGear)
 
 class OBD:
     Connected = 0  # connection is off by default - will be turned on in setup thread
