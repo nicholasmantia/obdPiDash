@@ -37,7 +37,7 @@ AnchorLayout:
                     halign: 'center'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 462, 71
+                    pos: 460, 72
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 
@@ -210,7 +210,7 @@ AnchorLayout:
                     text:
                         (str(math.floor(app.CoolantTemp))) if app.TempUnit == "F" \
                         else (str(math.floor((app.CoolantTemp-32)*(5/9))))
-                    font_size: 63
+                    font_size: 62
                     size_hint: None, None
                     height: 85
                     width: 158
@@ -218,14 +218,14 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 792, 476
+                    pos: 792, 475
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text:
                         (str(math.floor(app.IntakeTemp))) if app.TempUnit == "F" \
                         else (str(math.floor((app.IntakeTemp-32)*(5/9))))
-                    font_size: 63
+                    font_size: 62
                     size_hint: None, None
                     height: 85
                     width: 158
@@ -233,12 +233,12 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 179, 476
+                    pos: 179, 475
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.IntakeTemp > app.IntakeTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text: str(app.Voltage)
-                    font_size: 63
+                    font_size: 62
                     size_hint: None, None
                     height: 85
                     width: 158
@@ -246,12 +246,12 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 620, 476
+                    pos: 620, 475
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.Voltage > 16.25 else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * 16.25) <= app.IntakeTemp <= 16.25 else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
                     text: str(app.LTFT)
-                    font_size: 63
+                    font_size: 62
                     size_hint: None, None
                     height: 85
                     width: 158
@@ -259,7 +259,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 19, 476
+                    pos: 19, 475
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.LTFT > app.LTFTWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.LTFTWarn - (0.1875 * app.LTFTWarn) <= app.LTFT <= app.LTFTWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -307,7 +307,7 @@ AnchorLayout:
                     halign: 'center'
                     valign: 'middle'
                     font_hinting: None
-                    pos: 411, 51
+                    pos: 410, 53
                     font_name: GaugeFont
                     color: (232 / 255, 214 / 255, 7 / 255, 1)
 
