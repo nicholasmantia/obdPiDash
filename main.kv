@@ -218,7 +218,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 792, 474
+                    pos: 790, 474
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.CoolantTemp > app.CoolantTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.CoolantTempWarn - (0.1875 * app.CoolantTempWarn) <= app.CoolantTemp <= app.CoolantTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -233,7 +233,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 179, 474
+                    pos: 177, 474
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.IntakeTemp > app.IntakeTempWarn else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * app.IntakeTempWarn) <= app.IntakeTemp <= app.IntakeTempWarn else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -246,7 +246,7 @@ AnchorLayout:
                     halign: 'right'
                     valign: 'bottom'
                     font_hinting: None
-                    pos: 621, 474
+                    pos: 620, 474
                     font_name: GaugeFont
                     color: (242 / 255, 109 / 255, 106 / 255, 1) if app.Voltage > 16.25 else (232 / 255, 214 / 255, 7 / 255, 1) if app.IntakeTempWarn - (0.1875 * 16.25) <= app.IntakeTemp <= 16.25 else (170 / 255, 229 / 255, 146 / 255, 1)  # Green
                 Label:
@@ -1280,10 +1280,10 @@ AnchorLayout:
                 background_normal: 'data/elements/Dock/SettingsButton.png'
                 background_down: 'data/elements/Dock/SettingsButton_pressed.png'
                 opacity: 1
-                pos: 908, Dock_y0
+                pos: 940, Dock_y0
                 size_hint: None, None
-                height: 40
-                width: 40
+                height: 30
+                width: 30
                 on_press: app.save()
                 on_press: sm.current = 'settings'
 
@@ -1292,10 +1292,10 @@ AnchorLayout:
                 background_normal: 'data/elements/Dock/PowerButton.png'
                 background_down: 'data/elements/Dock/PowerButton_pressed.png'
                 opacity: 1
-                pos: 963, Dock_y0
+                pos: 975, Dock_y0
                 size_hint: None, None
-                height: 40
-                width: 80
+                height: 30
+                width: 30
                 on_press: app.save()
                 on_press: app.ScreenOnOff("OFF")
                 on_release: app.shutdown()
