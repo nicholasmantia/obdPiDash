@@ -177,7 +177,7 @@ class vehicle:
             GearArray = [firstdelta, seconddelta, thirddelta, fourthdelta, fifthdelta, sixthdelta]
             best_delta = min(GearArray)
             smallestGear = GearArray.index(best_delta)
-            vehicle.gear.current = str(smallestGear)
+            vehicle.gear.current = "1" if smallestGear == 0 else str(smallestGear + 1)
 
 class OBD:
     Connected = 0  # connection is off by default - will be turned on in setup thread
