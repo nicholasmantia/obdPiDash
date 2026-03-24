@@ -3,6 +3,7 @@ import kivy
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
@@ -107,17 +108,18 @@ if externalshutdown:
 class LoadingScreen(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(orientation="vertical", **kwargs)
-        self.padding = 20
-        self.spacing = 10
 
-        self.status_label = Label(
-            text="Starting dash...",
-            font_size="28sp",
-        )
-        self.add_widget(self.status_label)
+        with self.canvas.before:
+            Color(0, 0, 0, 1)  # solid black
+            self.rect = Rectangle(size=self.size, pos=self.pos)
 
-    def set_status(self, text: str) -> None:
-        self.status_label.text = text
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
+        self.add_widget(Label(text="Starting...", font_size="40sp"))
+
+    def _update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Initialize Classes and Variables and a few threads
@@ -751,7 +753,7 @@ class MainApp(MDApp):
         dashboard_root = Builder.load_file("main.kv")
         self.root_container.clear_widgets()
         self.root_container.add_widget(dashboard_root)
-        Clock.schedule_once(self.start_obd, 0.2)
+        Clock.schedule_once(self.start_obd, 1.0)
 
     def start_obd(self, *_args):
         global OBDEnabled
