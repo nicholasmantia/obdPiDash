@@ -700,8 +700,10 @@ class MainApp(MDApp):
     LTFTGaugeMax = OBD.gauge.persegment.LTFT_max / 2
 
     def build(self):
+        self.root_container = BoxLayout()
         self.loading_screen = LoadingScreen()
-        return self.loading_screen
+        self.root_container.add_widget(self.loading_screen)
+        return self.root_container
 
     def on_start(self):
         Clock.schedule_interval(self.updatevariables, .1)
@@ -747,7 +749,8 @@ class MainApp(MDApp):
 
     def show_dashboard(self, *_args):
         dashboard_root = Builder.load_file("main.kv")
-        self.root = dashboard_root
+        self.root_container.clear_widgets()
+        self.root_container.add_widget(dashboard_root)
         Clock.schedule_once(self.start_obd, 0.2)
 
     def start_obd(self, *_args):
