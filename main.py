@@ -108,20 +108,17 @@ if externalshutdown:
 class LoadingScreen(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(orientation="vertical", **kwargs)
+        self.padding = 20
+        self.spacing = 10
 
-        with self.canvas.before:
-            Color(0, 0, 0, 1)  # solid black
-            self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.status_label = Label(
+            text="Starting dash...",
+            font_size="40sp"
+        )
+        self.add_widget(self.status_label)
 
-        self.bind(size=self._update_rect, pos=self._update_rect)
-
-        self.add_widget(Label(text="Starting...", font_size="40sp"))
     def set_status(self, text):
         self.status_label.text = text
-        
-    def _update_rect(self, *args):
-        self.rect.size = self.size
-        self.rect.pos = self.pos
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Initialize Classes and Variables and a few threads
