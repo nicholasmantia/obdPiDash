@@ -1,6 +1,6 @@
 import kivy
 #kivy.require('1.11.0')
-from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 from kivymd.theming import ThemeManager
 from kivy.clock import Clock
@@ -589,7 +589,7 @@ class DTCScreen(Screen):
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Main App Class
-class MainApp(App):
+class MainApp(MDApp):
     def build(self):
         Clock.schedule_interval(self.updatevariables, .1)
         Clock.schedule_interval(self.updateOBDdata, .05)
