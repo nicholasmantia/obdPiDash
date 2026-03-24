@@ -1,5 +1,9 @@
 import kivy
 #kivy.require('1.11.0')
+from kivy.core.window import Window
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import Screen
 from kivymd.theming import ThemeManager
@@ -16,6 +20,8 @@ import socket
 import time
 import os
 import math
+
+Window.clearcolor = (0.02, 0.02, 0.02, 1)  # almost black
 
 # Program Info
 # ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -91,8 +97,27 @@ def CheckExternalShutdown():
         time.sleep(.5)
 
 if externalshutdown:
-    ExternalShutdownCheckThread = threading.Thread(name='check_externalshutdown_thread', target=CheckExternalShutdown)
+    ExternalShutdownCheckThread = threading.Thread(
+        name='check_externalshutdown_thread',
+        target=CheckExternalShutdown,
+        daemon=True
+    )
     ExternalShutdownCheckThread.start()
+
+class LoadingScreen(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(orientation="vertical", **kwargs)
+        self.padding = 20
+        self.spacing = 10
+
+        self.status_label = Label(
+            text="Starting dash...",
+            font_size="28sp",
+        )
+        self.add_widget(self.status_label)
+
+    def set_status(self, text: str) -> None:
+        self.status_label.text = text
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Initialize Classes and Variables and a few threads
@@ -532,31 +557,39 @@ class OBD:
 
 
     def start_setup_thread(self):
-        OBDSetupThread = threading.Thread(name='obd_setup_thread', target=self.OBD_setup_thread)
+        OBDSetupThread = threading.Thread(
+            name='obd_setup_thread',
+            target=self.OBD_setup_thread,
+            daemon=True
+        )
         OBDSetupThread.start()
 
     def start_update_thread(self):
-        OBDUpdateThread = threading.Thread(name='obd_update_thread', target=self.OBD_update_thread)
+        OBDUpdateThread = threading.Thread(
+            name='obd_update_thread',
+            target=self.OBD_update_thread,
+            daemon=True
+        )
         OBDUpdateThread.start()
 
-if OBDEnabled:
-    OBD().start_setup_thread()
-    OBD().start_update_thread()
+# if OBDEnabled:
+#     OBD().start_setup_thread()
+#     OBD().start_update_thread()
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # A few initial functions to run for setup
-sys().loaddata()
+# sys().loaddata()
 
-if developermode == 0:
-    if autobrightness == 1:
-        currenthour = int(time.strftime("%-H"))  # hour as decimal (24hour)
-        if currenthour < 7 or currenthour >= 20:  # earlier than 7am and later than 6pm -> dim screen on start
-            sys().setbrightness(15)
-        else:
-            sys().setbrightness(255)
+# if developermode == 0:
+#     if autobrightness == 1:
+#         currenthour = int(time.strftime("%-H"))  # hour as decimal (24hour)
+#         if currenthour < 7 or currenthour >= 20:  # earlier than 7am and later than 6pm -> dim screen on start
+#             sys().setbrightness(15)
+#         else:
+#             sys().setbrightness(255)
 
-    if autobrightness == 2:  # start on dim every time
-        sys().setbrightness(15)
+#     if autobrightness == 2:  # start on dim every time
+#         sys().setbrightness(15)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Define Kivy Classes
@@ -590,12 +623,6 @@ class DTCScreen(Screen):
 # ---------------------------------------------------------------------------------------------------------------------------------------------
 # Main App Class
 class MainApp(MDApp):
-    def build(self):
-        Clock.schedule_interval(self.updatevariables, .1)
-        Clock.schedule_interval(self.updateOBDdata, .05)
-        Clock.schedule_interval(self.updateClock, 1)
-
-# ---------------------------------------------------------------------------------------------------------------------------------------------
     theme_cls = ThemeManager()
     version = StringProperty()
     TempUnit = StringProperty()
@@ -669,8 +696,68 @@ class MainApp(MDApp):
     CoolantTempGaugeMax = OBD.gauge.persegment.CoolantTemp_max
     IntakeTempGaugeMax = OBD.gauge.persegment.IntakeTemp_max
     VoltageGaugeMax = OBD.gauge.persegment.Voltage_max
-    STFTGaugeMax = OBD.gauge.persegment.STFT_max/2
-    LTFTGaugeMax = OBD.gauge.persegment.LTFT_max/2
+    STFTGaugeMax = OBD.gauge.persegment.STFT_max / 2
+    LTFTGaugeMax = OBD.gauge.persegment.LTFT_max / 2
+
+    def build(self):
+        self.loading_screen = LoadingScreen()
+        return self.loading_screen
+
+    def on_start(self):
+        Clock.schedule_interval(self.updatevariables, .1)
+        Clock.schedule_interval(self.updateOBDdata, .05)
+        Clock.schedule_interval(self.updateClock, 1)
+
+        # Let first frame paint, then do setup
+        Clock.schedule_once(self.bootstrap, 0.1)
+
+    def bootstrap(self, *_args):
+        self.loading_screen.set_status("Loading settings...")
+        self.safe_loaddata()
+
+        if developermode == 0:
+            if autobrightness == 1:
+                currenthour = int(time.strftime("%-H"))
+                if currenthour < 7 or currenthour >= 20:
+                    sys().setbrightness(15)
+                else:
+                    sys().setbrightness(255)
+
+            if autobrightness == 2:
+                sys().setbrightness(15)
+
+        self.loading_screen.set_status("Loading dash...")
+        Clock.schedule_once(self.show_dashboard, 0.1)
+
+    def safe_loaddata(self):
+        try:
+            if not os.path.exists("savedata.txt"):
+                with open("savedata.txt", "w") as f:
+                    f.write("6500\n")
+                    f.write("80\n")
+                    f.write("230\n")
+                    f.write("140\n")
+                    f.write("15\n")
+                    f.write("15\n")
+                    f.write("F\n")
+                    f.write("MPH\n")
+            sys().loaddata()
+        except Exception as e:
+            print(f"loaddata failed: {e}")
+
+    def show_dashboard(self, *_args):
+        dashboard_root = Builder.load_file("main.kv")
+        self.root = dashboard_root
+        Clock.schedule_once(self.start_obd, 0.2)
+
+    def start_obd(self, *_args):
+        global OBDEnabled
+
+        if OBDEnabled:
+            OBD().start_setup_thread()
+            OBD().start_update_thread()
+
+        print("Boot complete")
 
     def updatevariables(self, *args):
         self.version = sys.version
@@ -684,7 +771,7 @@ class MainApp(MDApp):
         self.IntakeTempWarn = OBD.warning.IntakeTemp
         self.LTFTWarn = OBD.warning.LTFT
         self.STFTWarn = OBD.warning.STFT
-        if sys.getsysteminfo == True:
+        if sys.getsysteminfo:
             self.get_CPU_info()
             self.get_IP()
 
@@ -699,7 +786,7 @@ class MainApp(MDApp):
 
     def updateClock(self, *args):
         self.CurrentTime = time.strftime("%I:%M %p")
-        
+
     def updateOBDdata(self, *args):
         if OBD.Connected and developermode == 0:
             try:
@@ -726,7 +813,6 @@ class MainApp(MDApp):
                 print("Python -> Kivy OBD Var Setting Failure")
 
         if OBD.Connected == 0 and developermode:
-            #Speedo Dev Code
             if OBD.dev.Speed_inc == 1:
                 OBD.dev.Speed = OBD.dev.Speed + 1
             else:
@@ -737,11 +823,9 @@ class MainApp(MDApp):
                 OBD.dev.Speed_inc = 1
             if OBD.dev.Speed > OBD.Speed_max:
                 OBD.Speed_max = OBD.dev.Speed
-
             self.Speed = OBD.dev.Speed
             self.Speed_max = OBD.Speed_max
 
-            #Tach Dev Code
             if OBD.dev.RPM_inc == 1:
                 OBD.dev.RPM = OBD.dev.RPM + 10
             else:
@@ -755,7 +839,6 @@ class MainApp(MDApp):
             self.RPM = OBD.dev.RPM
             self.RPM_max = OBD.RPM_max
 
-            #Coolant Dev Code
             if OBD.dev.CoolantTemp_inc == 1:
                 OBD.dev.CoolantTemp = OBD.dev.CoolantTemp + 1
             else:
@@ -766,7 +849,6 @@ class MainApp(MDApp):
                 OBD.dev.CoolantTemp_inc = 1
             self.CoolantTemp = OBD.dev.CoolantTemp
 
-            #Intake Temp Dev Code
             if OBD.dev.IntakeTemp_inc == 1:
                 OBD.dev.IntakeTemp = OBD.dev.IntakeTemp + 1
             else:
@@ -776,8 +858,7 @@ class MainApp(MDApp):
             if OBD.dev.IntakeTemp < 1:
                 OBD.dev.IntakeTemp_inc = 1
             self.IntakeTemp = OBD.dev.IntakeTemp
-            
-            # Voltage dev code
+
             if OBD.dev.Voltage_inc == 1:
                 OBD.dev.Voltage = OBD.dev.Voltage + 1
             else:
@@ -788,7 +869,6 @@ class MainApp(MDApp):
                 OBD.dev.Voltage_inc = 1
             self.Voltage = OBD.dev.Voltage
 
-            # FuelTrim Dev Code
             if OBD.dev.FuelTrim_inc == 1:
                 OBD.dev.FuelTrim = OBD.dev.FuelTrim + 1
             else:
@@ -800,7 +880,6 @@ class MainApp(MDApp):
             self.LTFT = OBD.dev.FuelTrim
             self.STFT = OBD.dev.FuelTrim
 
-            # Simulate fuel level change in developer mode for testing
             if OBD.dev.FuelLevel_inc == 1:
                 OBD.dev.FuelLevel = OBD.dev.FuelLevel + 1
             else:
@@ -811,7 +890,6 @@ class MainApp(MDApp):
                 OBD.dev.FuelLevel_inc = 1
             self.FuelLevel = OBD.dev.FuelLevel
 
-            #Generic Dev Code
             if OBD.dev.Generic_inc == 1:
                 OBD.dev.Generic = OBD.dev.Generic + 1
             else:
@@ -821,11 +899,9 @@ class MainApp(MDApp):
             if OBD.dev.Generic < 10:
                 OBD.dev.Generic_inc = 1
 
-            # self.IntakeTemp = OBD.dev.Generic
             self.ThrottlePos = OBD.dev.Generic
             self.MAF = OBD.dev.Generic
             self.RunTime = OBD.dev.Generic
-            # self.FuelLevel = OBD.dev.Generic
             self.WarmUpsSinceDTC = OBD.dev.Generic
             self.DistanceSinceDTC = OBD.dev.Generic
             self.Voltage = OBD.dev.Generic / 5.0
@@ -833,31 +909,33 @@ class MainApp(MDApp):
             self.CatTemp = OBD.dev.Generic * 20
             self.TimingAdv = OBD.dev.Generic / 2
 
+        if OBD.enable.Speed and 0 <= int(round(self.Speed / OBD.gauge.persegment.Speed)) <= 32:
+            self.Speed_Image = f"data/gauges/mph_normal/MPH_{int(round(self.Speed / OBD.gauge.persegment.Speed))}.png"
+        if OBD.enable.RPM and 0 <= int(round(self.RPM / OBD.gauge.persegment.RPM)) <= 32:
+            self.RPM_Image = f"data/gauges/rpm_normal/RPM_{int(round(self.RPM / OBD.gauge.persegment.RPM))}.png"
+        if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp / OBD.gauge.persegment.CoolantTemp)) <= 16:
+            self.CoolantTemp_Image = f"data/gauges/temp_normal/Coolant_{int(round(self.CoolantTemp / OBD.gauge.persegment.CoolantTemp))}.png"
+        if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp / OBD.gauge.persegment.IntakeTemp)) <= 16:
+            self.IntakeTemp_Image = f"data/gauges/temp_normal/Coolant_{int(round(self.IntakeTemp / OBD.gauge.persegment.IntakeTemp))}.png"
+        if OBD.enable.Voltage and 0 <= int(round(self.Voltage / OBD.gauge.persegment.Voltage)) <= 16:
+            self.Voltage_Image = f"data/gauges/temp_normal/Coolant_{int(round(self.Voltage / OBD.gauge.persegment.Voltage))}.png"
+        if OBD.enable.STFT and -16 <= int(round(self.STFT / OBD.gauge.persegment.STFT)) <= 16:
+            self.STFT_Image = f"data/gauges/split/s2k_{int(round(self.STFT / OBD.gauge.persegment.STFT))}.png"
+        if OBD.enable.LTFT and 0 <= int(round(self.LTFT / OBD.gauge.persegment.LTFT) + 8) <= 16:
+            self.LTFT_Image = f"data/gauges/temp_normal/Coolant_{int(round(self.LTFT / OBD.gauge.persegment.LTFT) + 8)}.png"
+        if OBD.enable.ThrottlePos and 0 <= int(round(self.ThrottlePos / OBD.gauge.persegment.ThrottlePos)) <= 32:
+            self.ThrottlePos_Image = f"data/gauges/normal/s2k_{int(round(self.ThrottlePos / OBD.gauge.persegment.ThrottlePos))}.png"
+        if OBD.enable.Load and 0 <= int(round(self.Load / OBD.gauge.persegment.Load)) <= 32:
+            self.Load_Image = f"data/gauges/normal/s2k_{int(round(self.Load / OBD.gauge.persegment.Load))}.png"
+        if OBD.enable.TimingAdv and 0 <= int(round(self.TimingAdv / OBD.gauge.persegment.TimingAdv)) <= 32:
+            self.TimingAdv_Image = f"data/gauges/normal/s2k_{int(round(self.TimingAdv / OBD.gauge.persegment.TimingAdv))}.png"
+        if OBD.enable.FuelLevel and 0 <= int(round(self.FuelLevel / OBD.gauge.persegment.FuelLevel)) <= 32:
+            self.FuelLevel_Image = f"data/gauges/fuel_level_normal/FuelLevel_{int(round(self.FuelLevel / OBD.gauge.persegment.FuelLevel))}.png"
 
-        # Bar Image Selection
-        if OBD.enable.Speed and 0 <= int(round(self.Speed/OBD.gauge.persegment.Speed)) <= 32:
-            self.Speed_Image = str('data/gauges/mph_normal/MPH_'+(str(int(round(self.Speed/OBD.gauge.persegment.Speed))))+'.png')
-        if OBD.enable.RPM and 0 <= int(round(self.RPM/OBD.gauge.persegment.RPM)) <= 32:
-            self.RPM_Image = str('data/gauges/rpm_normal/RPM_'+(str(int(round(self.RPM/OBD.gauge.persegment.RPM))))+'.png')
-        if OBD.enable.CoolantTemp and 0 <= int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp)) <= 16:
-            self.CoolantTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.CoolantTemp/OBD.gauge.persegment.CoolantTemp))))+'.png')
-        if OBD.enable.IntakeTemp and 0 <= int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp)) <= 16:
-            self.IntakeTemp_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.IntakeTemp/OBD.gauge.persegment.IntakeTemp))))+'.png')
-        if OBD.enable.Voltage and 0 <= int(round(self.Voltage/OBD.gauge.persegment.Voltage)) <= 16:
-            self.Voltage_Image = str('data/gauges/temp_normal/Coolant_'+(str(int(round(self.Voltage/OBD.gauge.persegment.Voltage))))+'.png')
-        if OBD.enable.STFT and -16 <= int(round(self.STFT/OBD.gauge.persegment.STFT)) <= 16:
-            self.STFT_Image = str('data/gauges/split/s2k_' + (str(int(round(self.STFT/OBD.gauge.persegment.STFT))))+'.png')
-        if OBD.enable.LTFT and 0 <= int(round(self.LTFT/OBD.gauge.persegment.LTFT)+8) <= 16:
-            self.LTFT_Image = str('data/gauges/temp_normal/Coolant_' + (str(int(round(self.LTFT/OBD.gauge.persegment.LTFT)+8)))+'.png')
-        if OBD.enable.ThrottlePos and 0 <= int(round(self.ThrottlePos/OBD.gauge.persegment.ThrottlePos)) <= 32:
-            self.ThrottlePos_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.ThrottlePos/OBD.gauge.persegment.ThrottlePos))))+'.png')
-        if OBD.enable.Load and 0 <= int(round(self.Load/OBD.gauge.persegment.Load)) <= 32:
-            self.Load_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.Load/OBD.gauge.persegment.Load))))+'.png')
-        if OBD.enable.TimingAdv and 0 <= int(round(self.TimingAdv/OBD.gauge.persegment.TimingAdv)) <= 32:
-            self.TimingAdv_Image = str('data/gauges/normal/s2k_'+(str(int(round(self.TimingAdv/OBD.gauge.persegment.TimingAdv))))+'.png')
-        if OBD.enable.FuelLevel and 0 <= int(round(self.FuelLevel/OBD.gauge.persegment.FuelLevel)) <= 32:
-            self.FuelLevel_Image = str('data/gauges/fuel_level_normal/FuelLevel_'+(str(int(round(self.FuelLevel/OBD.gauge.persegment.FuelLevel))))+'.png')
-
+    # keep all your existing methods below this point unchanged:
+    # save, shutdown, update, reboot, killapp, ScreenOnOff, BrightnessSet,
+    # get_IP, get_CPU_info, toggleTempUnit, toggleSpeedUnit, zero_out_max,
+    # OBDEnabler, OBDOFF, slider callbacks, ReadDTC, ClearDTC, initOBD, show_warning
             
 
 
