@@ -111,11 +111,21 @@ class LoadingScreen(BoxLayout):
         self.padding = 20
         self.spacing = 10
 
+        with self.canvas.before:
+            Color(0, 0, 0, 1)
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+
+        self.bind(size=self._update_rect, pos=self._update_rect)
+
         self.status_label = Label(
             text="Starting dash...",
             font_size="40sp"
         )
         self.add_widget(self.status_label)
+
+    def _update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
 
     def set_status(self, text):
         self.status_label.text = text
