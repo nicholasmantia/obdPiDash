@@ -116,7 +116,9 @@ class LoadingScreen(BoxLayout):
         self.bind(size=self._update_rect, pos=self._update_rect)
 
         self.add_widget(Label(text="Starting...", font_size="40sp"))
-
+    def set_status(self, text):
+        self.status_label.text = text
+        
     def _update_rect(self, *args):
         self.rect.size = self.size
         self.rect.pos = self.pos
