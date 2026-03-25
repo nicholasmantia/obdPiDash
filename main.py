@@ -1,5 +1,4 @@
 import kivy
-import signal
 #kivy.require('1.11.0')
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
@@ -105,13 +104,6 @@ if externalshutdown:
         daemon=True
     )
     ExternalShutdownCheckThread.start()
-    
-def handle_sigterm(*args):
-    print("Received SIGTERM, shutting down...")
-    App.get_running_app().stop()
-
-signal.signal(signal.SIGTERM, handle_sigterm)
-signal.signal(signal.SIGINT, handle_sigterm)
 
 class LoadingScreen(BoxLayout):
     def __init__(self, **kwargs):
