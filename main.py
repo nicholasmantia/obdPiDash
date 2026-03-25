@@ -710,6 +710,12 @@ class MainApp(MDApp):
     STFTGaugeMax = OBD.gauge.persegment.STFT_max / 2
     LTFTGaugeMax = OBD.gauge.persegment.LTFT_max / 2
 
+    # Prevent MDApp from auto-loading main.kv before build() runs.
+    # We load it manually in show_dashboard() so the loading screen
+    # gets painted on the very first frame.
+    def load_kv(self, filename=None):
+        pass
+
     def build(self):
         self.root_container = BoxLayout()
         self.loading_screen = LoadingScreen()
@@ -721,11 +727,15 @@ class MainApp(MDApp):
         Clock.schedule_interval(self.updateOBDdata, .05)
         Clock.schedule_interval(self.updateClock, 1)
 
-        # Let first frame paint, then do setup
-        Clock.schedule_once(self.bootstrap, 0.1)
+        # Schedule for the very next frame so the loading screen paints first.
+        Clock.schedule_once(self.bootstrap, 0)
 
     def bootstrap(self, *_args):
         self.loading_screen.set_status("Loading settings...")
+        # Yield one frame so the status label redraws, then do real work.
+        Clock.schedule_once(self._do_loaddata, 0)
+
+    def _do_loaddata(self, *_args):
         self.safe_loaddata()
 
         if developermode == 0:
@@ -740,7 +750,8 @@ class MainApp(MDApp):
                 sys().setbrightness(15)
 
         self.loading_screen.set_status("Loading dash...")
-        Clock.schedule_once(self.show_dashboard, 0.1)
+        # Yield one more frame so "Loading dash..." is visible before KV blocks.
+        Clock.schedule_once(self.show_dashboard, 0)
 
     def safe_loaddata(self):
         try:
